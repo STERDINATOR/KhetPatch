@@ -1,0 +1,1999 @@
+# KHETPATCH — CRITICAL NEXT-PHASE PROMPT
+## REAL-TIME DATA INTELLIGENCE, LOCATION-AWARE AI, DYNAMIC CROP ROTATION, ECONOMIC OPTIMIZATION AND AUTONOMOUS FOLLOW-UP ENGINE
+
+**PRIORITY: CRITICAL / P0**
+
+**This specification extends the existing KhetPatch Master Build Specification.**
+
+Do not create a new application. Do not replace the existing design. Do not simplify the existing architecture. Inspect the actual application and implement this specification directly into the existing KhetPatch project.
+
+Your responsibility is to connect the complete application to real-world data and make every important intelligence module operate using actual, location-specific, continuously refreshed and traceable information.
+
+The final objective is:
+
+**When a farmer adds a farm, specifies its location, enters their budget and preferences, and records their crop history, KhetPatch must retrieve relevant environmental, agricultural, weather and market information, evaluate it against the farmer's real requirements, generate feasible crop-rotation alternatives, explain their trade-offs and continuously manage the resulting farming workflow.**
+
+This is not an optional enhancement.
+
+This is the central intelligence layer of KhetPatch.
+
+---
+
+# 1. CORE DIRECTIVE: BUILD A UNIFIED REAL-DATA DECISION SYSTEM
+
+Implement a unified data intelligence architecture connecting:
+
+1. User location and farm geography.
+2. Real-time weather observations.
+3. Weather forecasts and severe-weather warnings.
+4. NASA Earth-observation data.
+5. Historical climate and rainfall patterns.
+6. Soil properties and laboratory reports.
+7. Regional crop knowledge and crop calendars.
+8. Crop rotation and agronomic constraints.
+9. Commodity and mandi market prices.
+10. Farmer budget and available resources.
+11. Crop-specific operations and activity requirements.
+12. Farmer priorities and preferences.
+13. Field history and previous decisions.
+14. Expert-reviewed recommendations.
+
+All these sources must contribute to one unified field-specific decision context.
+
+Every AI module must use this shared context.
+
+Every recommendation must be traceable to the underlying records.
+
+Every follow-up must be generated from actual farm events, crop timelines, verified weather information and approved agricultural rules.
+
+Do not build isolated AI agents that retrieve contradictory data independently.
+
+Build a central data intelligence layer and make all application services consume it.
+
+## Required architecture
+
+```text
+                FARMER / EXPERT INPUT
+                         |
+                         v
+                LOCATION RESOLUTION
+                         |
+                         v
+                FARM / FIELD PROFILE
+                         |
+                         v
+             UNIFIED DATA INTELLIGENCE
+                         |
+          +--------------+----------------+
+          |              |                |
+          v              v                v
+     NASA DATA       WEATHER DATA      LOCAL DATA
+     GPM IMERG       IMD               Soil Tests
+     SMAP L4         Forecasts         Crop Rules
+     POWER           Warnings          Crop Calendars
+     LANDSAT         Rainfall          Market Prices
+          |              |                |
+          +--------------+----------------+
+                         |
+                         v
+               DATA VALIDATION ENGINE
+                         |
+                         v
+                FIELD CONTEXT BUILDER
+                         |
+          +--------------+----------------+
+          |              |                |
+          v              v                v
+    AGRICULTURAL     ECONOMIC           WEATHER
+    RULE ENGINE      OPTIMIZER          RISK ENGINE
+          |              |                |
+          +--------------+----------------+
+                         |
+                         v
+               CROP ROTATION SOLVER
+                         |
+                         v
+             THREE STRATEGY COMPARISON
+                         |
+                         v
+              EVIDENCE-BASED AI LAYER
+                         |
+                         v
+               FARMER DECISION / REVIEW
+                         |
+                         v
+              APPROVED FARM OPERATIONS
+                         |
+                         v
+              FOLLOW-UP EVENT ENGINE
+                         |
+                         v
+                FARMER FEEDBACK
+                         |
+                         v
+               UPDATED FIELD MEMORY
+                         |
+                         +-------> Reassess when material inputs change
+```
+
+The AI must never bypass the data-validation and decision-engine layers.
+
+---
+
+# 2. LOCATION-AWARE DATA ACQUISITION
+
+Location is the foundation of every agricultural recommendation.
+
+The application must operate using the actual geographical location of the individual farm or field, not a generic city-level location.
+
+## 2.1 Location onboarding
+
+When a farmer creates a farm, provide these options:
+
+- Use my current location.
+- Search by village.
+- Search by district.
+- Search by taluka.
+- Select on interactive map.
+- Enter coordinates manually.
+
+Device geolocation must be used only after explicit permission.
+
+Capture:
+
+- Latitude.
+- Longitude.
+- Coordinate reference system.
+- Accuracy in metres.
+- Timestamp.
+- Acquisition method.
+- Reverse-geocoded address.
+- Village.
+- Taluka.
+- District.
+- State.
+- Country.
+
+Require the farmer to confirm that the captured location represents the actual farm.
+
+Keep the farmer's device location separate from the saved farm location.
+
+Allow a farmer to manage multiple farms and multiple fields independently.
+
+## 2.2 Field geometry
+
+For every field, support:
+
+- Polygon drawing.
+- Polygon editing.
+- Area calculation.
+- Boundary validation.
+- Coordinate storage using PostGIS.
+- Spatial intersection with NASA products.
+- Geospatial metadata.
+- Field-specific data extraction.
+
+The actual field polygon must be used where the provider's spatial resolution and data format permit it.
+
+Do not treat the centroid of a village as the exact field location.
+
+Do not assume that a farm's address identifies every field accurately.
+
+## 2.3 Geographic context resolution
+
+On creation or modification of a farm location:
+
+1. Determine coordinates.
+2. Resolve the administrative geography.
+3. Determine the applicable agroclimatic zone using an authoritative mapping.
+4. Discover relevant IMD stations, districts and weather advisory areas.
+5. Identify relevant agricultural universities, KVKs and verified crop references.
+6. Discover nearby agricultural markets.
+7. Retrieve applicable soil and environmental datasets.
+8. Store the resolved geographic context.
+
+Build a geographic context service.
+
+Do not hardcode Maharashtra-specific logic into the entire application. It must be extensible to other Indian states and eventually other countries.
+
+For Maharashtra, prioritise authoritative regional references from Mahatma Phule Krishi Vidyapeeth (MPKV), Rahuri, relevant agricultural universities and ICAR/KVK resources.
+
+---
+
+# 3. REAL WEATHER DATA AND WEATHER INTELLIGENCE
+
+Weather is a direct input into both the rotation engine and the follow-up engine.
+
+Create a dedicated weather intelligence service.
+
+## 3.1 Primary source: India Meteorological Department
+
+Official API portal:
+
+https://api.imd.gov.in/public/
+
+API reference:
+
+https://api.imd.gov.in/public/api_reference.html
+
+Implement the supported APIs available to the configured account.
+
+Prioritise:
+
+- Current weather observations.
+- City/location forecast with coordinates where supported.
+- District-level nowcasts.
+- Station-level nowcasts.
+- District and subdivision warnings.
+- District and state rainfall.
+- Five-to-seven-day forecasts where offered.
+- Agromet advisories.
+- Seasonal rainfall forecasts where applicable.
+- Radar and lightning products where access and format permit.
+
+Use IMD as the primary official Indian weather and warning reference wherever applicable.
+
+Implement actual API authentication and error handling according to the official access documentation.
+
+If registration or API credentials are necessary, identify the exact requirement.
+
+Do not fabricate IMD responses or simulate warnings.
+
+## 3.2 Secondary forecast provider: Open-Meteo
+
+Documentation:
+
+https://open-meteo.com/en/docs
+
+Implement a configurable secondary provider for:
+
+- Current weather.
+- Hourly forecasts.
+- Daily forecasts.
+- Precipitation probability.
+- Rainfall.
+- Temperature.
+- Relative humidity.
+- Wind speed.
+- Wind gusts.
+- Evapotranspiration.
+- Reference evapotranspiration (ET0).
+- Soil temperature.
+- Model-derived soil-moisture forecasts where available.
+
+Use geographical coordinates of the field.
+
+Support ensemble or multiple-model comparisons when appropriate and available.
+
+Respect API usage policies and licensing requirements for the selected service plan. The free service must not be used for commercial workloads unless its terms explicitly permit the intended use.
+
+Open-Meteo is a complementary forecast provider, not a replacement for official IMD severe-weather warnings.
+
+## 3.3 Weather intelligence calculations
+
+Implement:
+
+- Past 24-hour rainfall.
+- Past 7-day rainfall.
+- Past 30-day rainfall.
+- Forecast rainfall.
+- Forecast rainfall probability.
+- Consecutive dry-day count.
+- Heat-stress indicators where crop-specific validated thresholds exist.
+- Temperature trends.
+- Wind and rainfall conditions relevant to farm activities.
+- Reference ET0 trends.
+- Weather anomalies against an appropriate historical baseline.
+- Forecast uncertainty where supplied.
+
+All calculations must use actual records and correct time zones.
+
+Use Asia/Kolkata for India-based farm timelines.
+
+Keep observation timestamps distinct from retrieval timestamps.
+
+Do not calculate rainfall accumulation by summing incompatible rainfall rates or overlapping forecast periods.
+
+## 3.4 Weather risk engine
+
+Build a deterministic weather risk service.
+
+It should evaluate the available forecast and observation data against verified crop-stage and location-specific rules.
+
+Possible outputs:
+
+- Heavy-rainfall concern.
+- Dry-spell concern.
+- Heat-stress concern.
+- High-wind concern.
+- Waterlogging concern where supported.
+- Potential planting-window disruption.
+- Field-operation timing concern.
+
+Do not create an alert merely because a metric looks unusual.
+
+Each alert requires:
+
+- Underlying source records.
+- Observation or forecast date.
+- Applicable crop.
+- Applicable crop stage.
+- Geographic coverage.
+- Rule or threshold reference.
+- Severity rationale.
+- Confidence and uncertainty.
+- Recommended safe next step.
+- Expiry or review time.
+
+Never override an official IMD warning with an AI-generated interpretation.
+
+Do not use forecast data as proof that a weather event has already occurred.
+
+---
+
+# 4. NASA EARTH-OBSERVATION DATA MUST INFORM EVERY ELIGIBLE DECISION
+
+NASA data integration must be actual and operational.
+
+Implement the following sources as connected provider services.
+
+## 4.1 GPM IMERG
+
+Source:
+
+https://gpm.nasa.gov/data/imerg
+
+Use appropriate IMERG Early, Late and Final products.
+
+For low-latency precipitation context, prioritise Early Run when available.
+
+Extract:
+
+- Rainfall estimates.
+- Accumulation periods.
+- Spatial coverage.
+- Validity information.
+- Product identifier.
+- Collection/version.
+- Observation time.
+- Retrieval time.
+
+Use actual product metadata and correct scale/unit conversion.
+
+IMERG Early Run has roughly four-hour latency and about 0.1-degree/10-km grid spacing. Do not call its values farm-gauge observations.
+
+Use its data to support rainfall context and broader weather-pattern analysis.
+
+## 4.2 SMAP L4
+
+Source:
+
+https://nsidc.org/data/smap
+
+Use the appropriate available SPL4SMAU or SPL4SMGP product.
+
+Retrieve:
+
+- Surface soil-moisture estimates.
+- Root-zone soil-moisture estimates where available.
+- Observation interval.
+- Product date.
+- Quality flags.
+- Native grid resolution.
+- Product publication/availability information.
+
+SMAP L4 has a 9-km grid and three-hourly temporal information, but its public archive may lag substantially. Record the actual data latency.
+
+Use this as regional soil-water context, not a replacement for farm-level soil probes.
+
+Never let a coarse satellite estimate alone trigger a precise field-level irrigation instruction.
+
+## 4.3 NASA POWER
+
+Source:
+
+https://power.larc.nasa.gov/docs/services/api/
+
+Retrieve supported meteorological and solar parameters for the farm's coordinates.
+
+Potential variables:
+
+- Temperature.
+- Maximum and minimum temperature.
+- Relative humidity.
+- Precipitation.
+- Wind parameters where supported.
+- Solar radiation.
+- Evapotranspiration-related parameters where supported.
+
+Use correct temporal endpoints and parameter definitions.
+
+Use NASA POWER for historical environmental context, climatology and supported time-series analytics.
+
+Do not present older POWER records as live station observations.
+
+## 4.4 Landsat 8 and 9
+
+Source:
+
+https://www.usgs.gov/landsat-missions/landsat-collection-2
+
+Use actual Collection 2 imagery and suitable Level-2 surface-reflectance products.
+
+Calculate vegetation indicators from correctly scaled reflectance bands.
+
+For NDVI:
+
+NDVI = (NIR - RED) / (NIR + RED)
+
+Apply all required quality, cloud and shadow masks.
+
+Store:
+
+- Scene ID.
+- Acquisition date.
+- Sensor.
+- Product version.
+- Cloud cover.
+- Valid pixels.
+- Field coverage.
+- NDVI statistics.
+- Processing date.
+
+Use Landsat vegetation indicators as supporting evidence.
+
+Do not claim NDVI directly diagnoses soil health or crop nutrition.
+
+Do not create a new observation date by interpolating from an older scene and labeling it current.
+
+## 4.5 Unified NASA Earth-observation context
+
+The NASA data service must expose standardised field-level information.
+
+Provide a data object containing:
+
+```json
+{
+  "field_id": "uuid",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "observations": [],
+  "products": [],
+  "source_provenance": [],
+  "quality": {},
+  "freshness": {},
+  "spatial_resolution": {},
+  "data_gaps": []
+}
+```
+
+Treat this as a conceptual schema. Implement proper typed models rather than storing arbitrary unchecked JSON.
+
+---
+
+# 5. SOIL INFORMATION AND SOIL HEALTH INTELLIGENCE
+
+The platform must not invent soil nutrient information.
+
+Implement a soil data service combining:
+
+1. Uploaded soil test reports.
+2. Farmer-provided soil information.
+3. Authorised soil-health records where access is available.
+4. Validated regional soil references.
+5. Satellite-derived environmental context.
+6. Field observations.
+
+Support these soil test parameters:
+
+- pH.
+- Electrical conductivity.
+- Organic carbon.
+- Available nitrogen.
+- Available phosphorus.
+- Available potassium.
+- Sulphur.
+- Zinc.
+- Iron.
+- Copper.
+- Manganese.
+- Boron.
+
+Allow PDF/image report upload and a farmer-friendly manual entry workflow.
+
+Where OCR or document extraction is used:
+
+- Preserve the original report.
+- Capture units.
+- Capture testing laboratory.
+- Capture sample date.
+- Capture sample location.
+- Allow human review.
+- Never automatically accept uncertain extracted values.
+
+Use the official Soil Health Card framework and relevant verified state information where accessible.
+
+The field soil profile must distinguish:
+
+- Lab-measured information.
+- Farmer-entered information.
+- Regional model estimates.
+- Satellite-derived context.
+- Missing information.
+
+If soil values are missing, request a soil test rather than fabricating nutrient levels.
+
+Use available soil measurements to evaluate suitable crops and agronomic constraints.
+
+---
+
+# 6. AGRICULTURAL KNOWLEDGE AND LOCAL ADVISORY ENGINE
+
+Crop-rotation recommendations must use geographically appropriate and traceable agricultural knowledge.
+
+For Maharashtra, prioritise:
+
+- Mahatma Phule Krishi Vidyapeeth, Rahuri.
+- Relevant state agricultural universities.
+- ICAR.
+- Relevant KVK publications.
+- IMD Agromet advisories.
+- Government agriculture department bulletins.
+- Official crop calendars and validated local agronomic references.
+
+Useful starting points:
+
+https://mpkv.ac.in/Research/ResearchTechRecomm
+
+https://icar.gov.in/
+
+https://agromet.imd.gov.in/
+
+## Required knowledge extraction
+
+Build a curated, versioned crop-knowledge database.
+
+For each crop, capture only supported information:
+
+- Crop identifier.
+- Crop family.
+- Scientific name.
+- Local names.
+- Relevant agroclimatic regions.
+- Suitable season.
+- Sowing window.
+- Crop duration.
+- Soil suitability.
+- Water needs.
+- Irrigation considerations.
+- Nutrient requirements.
+- Root characteristics where supported.
+- Crop family rotation requirements.
+- Known rotation restrictions.
+- Relevant pests/disease breaks.
+- Harvest information.
+- Source reference.
+- Source publication date.
+- Validity period.
+- Expert verification status.
+
+Create region-specific knowledge records.
+
+Do not use a recommendation created for a different agroclimatic region as an unquestioned rule.
+
+## Document ingestion
+
+For official reports, PDFs and publications:
+
+- Retrieve source documents only where permitted.
+- Preserve source URLs and bibliographic metadata.
+- Extract useful recommendations.
+- Store page or section references.
+- Record the publication year.
+- Record the relevant district/agroclimatic zone.
+- Require expert approval before turning extracted recommendations into hard constraints.
+
+Never let a general-purpose language model convert an arbitrary agricultural article into a production crop rule without verification.
+
+---
+
+# 7. REAL MARKET DATA AND FARMER BUDGET INTELLIGENCE
+
+The crop-rotation engine must understand economic feasibility.
+
+A recommendation that is environmentally suitable but financially impossible must not be presented as an ideal option.
+
+## 7.1 Market-price integration
+
+Integrate the Government of India's AGMARKNET-derived market price data through the data.gov.in API.
+
+Official starting point:
+
+https://data.gov.in/catalog/current-daily-price-various-commodities-various-markets-mandi
+
+Use the available dataset and current API registration/documentation.
+
+Retrieve:
+
+- Commodity.
+- Variety.
+- State.
+- District.
+- Market.
+- Arrival date.
+- Minimum price.
+- Maximum price.
+- Modal price.
+- Relevant units.
+- Retrieval timestamp.
+
+Support comparison across nearby markets where sufficient data exists.
+
+Do not call the daily records real-time exchange prices.
+
+Do not treat wholesale mandi prices as guaranteed farm-gate prices.
+
+Do not assume the closest market is automatically the best selling destination.
+
+Display the date of the market data and the market name.
+
+## 7.2 Market analytics
+
+Calculate where sufficient historical observations exist:
+
+- Recent modal price.
+- 7-day trend if sufficient records exist.
+- 30-day trend if sufficient records exist.
+- 90-day trend if sufficient records exist.
+- Historical price range.
+- Price volatility.
+- Nearby market comparison.
+
+Do not produce a trend where the data history is insufficient.
+
+Do not claim that a historical trend is a guaranteed future price.
+
+Any market-price prediction must be a separate, explicitly experimental model and must have measurable validation before being used in a recommendation.
+
+## 7.3 Input-cost intelligence
+
+Seed, fertiliser, labour, machinery, irrigation, transport and other cultivation costs are often locally negotiated and do not necessarily have a trustworthy universal live API.
+
+Implement verified cost inputs through:
+
+- Farmer-entered actual quotations.
+- Uploaded invoices.
+- Approved FPO input-price records.
+- Agronomist/organisation-maintained cost reference tables.
+- Official published prices or subsidy schedules when available.
+
+For every cost record, preserve:
+
+- Item.
+- Brand/type where supplied.
+- Unit.
+- Unit price.
+- Quantity.
+- Currency.
+- Source.
+- Date obtained.
+- Validity date.
+- Vendor or organisation.
+- Verification status.
+
+Never silently fill missing costs with invented values.
+
+## 7.4 Budget onboarding
+
+Ask farmers for their practical financial constraints:
+
+- Total available cultivation budget.
+- Budget per acre/hectare.
+- Land area.
+- Preferred currency.
+- Expected cash-flow availability.
+- Maximum affordable input expenditure.
+- Irrigation budget.
+- Labour availability.
+- Machinery availability.
+- Seed availability.
+- Existing stored farm inputs.
+- Risk tolerance.
+- Whether they prefer lower upfront cost or higher potential return.
+
+Allow optional category-level budgets.
+
+Use Indian rupees for Indian farms, with correct unit conversion.
+
+## 7.5 Crop cost model
+
+Calculate a transparent crop-specific cultivation budget containing supported line items:
+
+- Seeds.
+- Land preparation.
+- Labour.
+- Machinery.
+- Soil preparation.
+- Fertiliser and nutrient inputs.
+- Irrigation.
+- Energy/water.
+- Crop-protection inputs where supported by approved plans.
+- Harvesting.
+- Post-harvest handling.
+- Transportation.
+- Other farmer-provided expenditure.
+- Contingency.
+
+Use source-backed crop quantities and rates wherever available.
+
+Calculate:
+
+- Estimated cost per acre.
+- Estimated cost for total field area.
+- Upfront expenditure.
+- Stage-wise expenditure.
+- Remaining budget.
+- Unpriced items.
+- Budget feasibility.
+
+A recommendation with missing major input prices must show an incomplete estimate rather than a misleading total.
+
+## 7.6 Economic outcome evaluation
+
+Where reliable regional yield references and market prices are available, calculate an indicative revenue scenario.
+
+Provide:
+
+- Cost estimate.
+- Relevant market-price reference.
+- Yield-source reference.
+- Gross revenue scenario.
+- Indicative gross margin.
+- Unpriced costs.
+- Price and yield uncertainty.
+- Sensitivity to changed inputs.
+
+Do not claim guaranteed profit or yield.
+
+If reliable yield information is missing, do not invent a revenue estimate.
+
+Offer the farmer the ability to enter their own yield expectation as a clearly labelled farmer-provided assumption.
+
+---
+
+# 8. CENTRAL FARM DECISION CONTEXT ENGINE
+
+Build the most important shared service in the entire platform:
+
+`buildFarmDecisionContext(farmerId, farmId, fieldId, planningSeason)`
+
+This service must gather, validate and structure every input needed for an agricultural decision.
+
+It must retrieve:
+
+### A. Geography
+
+- Confirmed field coordinates.
+- Actual field polygon.
+- Village.
+- Taluka.
+- District.
+- State.
+- Agroclimatic zone.
+- Relevant weather station.
+- Nearby market options.
+
+### B. Farmer requirements
+
+- Budget.
+- Area.
+- Currency.
+- Irrigation.
+- Water availability.
+- Labour constraints.
+- Crop preferences.
+- Risk tolerance.
+- Time horizon.
+- Target outcomes.
+- Restrictions.
+
+### C. Farm history
+
+- Previous crops.
+- Existing rotations.
+- Crop families.
+- Sowing dates.
+- Harvest dates.
+- Previous activities.
+- Field notes.
+- Accepted/rejected strategies.
+- Current commitments.
+
+### D. Soil
+
+- Latest soil test.
+- Soil type.
+- pH.
+- Nutrients.
+- Organic carbon.
+- EC.
+- Source and confidence.
+- Missing values.
+
+### E. Weather
+
+- Current available observations.
+- Historical rainfall.
+- Recent rainfall.
+- Forecast.
+- IMD warnings.
+- IMD advisories.
+- Evapotranspiration.
+- Weather uncertainty.
+
+### F. NASA observations
+
+- GPM rainfall.
+- SMAP surface/root-zone context.
+- NASA POWER time-series data.
+- Landsat-derived vegetation indicators where available.
+- Product freshness.
+- Spatial resolution.
+- Quality.
+
+### G. Agricultural knowledge
+
+- Region-specific crop references.
+- Validated sowing windows.
+- Crop durations.
+- Rotation constraints.
+- Expert-approved rules.
+- Local advisories.
+
+### H. Economics
+
+- Latest relevant market prices.
+- Market history.
+- Input quotations.
+- Available inventory.
+- Cultivation cost estimates.
+- Budget constraints.
+- Yield references where available.
+
+The service must produce a validated, versioned context object.
+
+Example conceptual structure:
+
+```json
+{
+  "context_version": "1.0",
+  "farmer_id": "uuid",
+  "farm_id": "uuid",
+  "field_id": "uuid",
+  "planning_season": "season",
+  "geography": {},
+  "farmer_requirements": {},
+  "field_history": {},
+  "soil_profile": {},
+  "weather_context": {},
+  "nasa_observations": {},
+  "agronomic_knowledge": {},
+  "market_context": {},
+  "budget_context": {},
+  "data_quality": {},
+  "missing_information": [],
+  "evidence_references": [],
+  "generated_at": "ISO-8601"
+}
+```
+
+Use typed schemas, not unvalidated free-form objects.
+
+## Critical rules
+
+- All sources must have timestamps.
+- All measurements must have units.
+- Conflicting sources must be disclosed.
+- Missing values must remain missing.
+- Stale data must be identified.
+- Model estimates must not be mixed with measured information.
+- Farmer-entered assumptions must not be relabelled as verified facts.
+- The context must be immutable once used for a recommendation.
+- Subsequent refreshes must create a new context version.
+
+Every recommendation, assistant answer and follow-up decision must store the context version used.
+
+---
+
+# 9. DYNAMIC CROP-ROTATION RECOMMENDATION ENGINE
+
+This must be a functioning agricultural decision system, not a text-generation feature.
+
+Implement a deterministic Python decision engine using OR-Tools or an equivalent constraint-solving framework.
+
+The system must use actual, location-aware context.
+
+## 9.1 Evaluate feasibility first
+
+Before generating suggestions, determine:
+
+- Whether crop season is applicable.
+- Whether the sowing window is feasible.
+- Whether crop duration fits the planning period.
+- Whether field history creates a rotation restriction.
+- Whether known pest/disease breaks apply.
+- Whether soil information supports the crop.
+- Whether water availability is adequate under the validated rules.
+- Whether the proposed plan fits farmer budget.
+- Whether important inputs are missing.
+- Whether authoritative local guidance is available.
+
+Hard constraints must be enforced.
+
+Do not allow a high preference score to override a hard agronomic constraint.
+
+## 9.2 Real-time data integration
+
+The engine must actively use the latest valid data that is relevant to the planning horizon:
+
+- Actual recent rainfall.
+- Relevant weather forecast.
+- Official IMD warnings.
+- NASA precipitation context.
+- Soil-water context.
+- Available laboratory soil tests.
+- Local temperature and rainfall history.
+- Crop calendar.
+- Crop history.
+- Market data.
+- Farmer budget.
+
+Not every dataset applies equally to every decision.
+
+Use data according to its scientific meaning and temporal relevance.
+
+For example:
+
+- A seven-day weather forecast can inform near-term field operations.
+- Seasonal climatology can support longer-term planning.
+- GPM rainfall can help assess broader precipitation conditions.
+- SMAP can provide regional soil-water context.
+- Landsat imagery can provide periodic vegetation information.
+- Soil laboratory measurements provide field-specific nutrient evidence.
+
+Do not use a weather forecast as if it were a validated seasonal forecast.
+
+Do not use old Landsat scenes to claim present field conditions.
+
+## 9.3 Three required strategy categories
+
+Generate:
+
+**OPTION 1 — EXISTING ROTATION**
+
+Evaluate the current crop sequence using available real data.
+
+Show:
+
+- Strengths.
+- Weaknesses.
+- Environmental considerations.
+- Financial implications.
+- Existing constraints.
+- Risks.
+
+**OPTION 2 — MINIMAL CHANGE ROTATION**
+
+Find the most practical feasible modifications.
+
+Prioritise:
+
+- Preserving farmer practices where suitable.
+- Lower upfront expenditure.
+- Feasibility with available resources.
+- Improved crop sequence where evidence supports it.
+- Practical sowing timing.
+- Budget compatibility.
+
+**OPTION 3 — ALTERNATIVE ROTATION**
+
+Explore another feasible crop sequence.
+
+Evaluate:
+
+- Local climatic suitability.
+- Crop-family diversity.
+- Soil considerations.
+- Water needs.
+- Cost.
+- Market access.
+- Farmer priorities.
+- Operational complexity.
+
+Do not generate an option that violates mandatory constraints.
+
+An option may be unavailable with a clear reason.
+
+## 9.4 Optimisation objectives
+
+Use a transparent multi-objective decision model.
+
+Potential objectives:
+
+- Minimise cultivation cost.
+- Respect farmer budget.
+- Improve practical crop diversity.
+- Consider nutrient cycling.
+- Respect water limitations.
+- Reduce avoidable weather-related exposure.
+- Fit sowing windows.
+- Consider market accessibility.
+- Respect available labour and machinery.
+- Respect farmer preferences.
+- Support longer-term soil stewardship.
+
+Let the farmer choose priorities or provide weights.
+
+Use a Pareto or trade-off comparison where useful.
+
+Do not conceal conflicting objectives inside one opaque AI score.
+
+## 9.5 Required recommendation output
+
+For every strategy, provide:
+
+- Feasibility.
+- Crop sequence.
+- Crop timing.
+- Estimated duration.
+- Budget breakdown.
+- Available resources.
+- Market context.
+- Environmental context.
+- Key agronomic reasons.
+- Constraints satisfied.
+- Constraints not satisfied.
+- Data sources.
+- Missing information.
+- Confidence.
+- Risks.
+- Trade-offs.
+- Farmer suitability explanation.
+- Expert validation status.
+
+Show exactly why the system favoured or rejected the option.
+
+---
+
+# 10. AI INTELLIGENCE MUST BE GROUNDED IN THE SAME VERIFIED CONTEXT
+
+Create specialised AI modules, but make all of them consume the shared Farm Decision Context.
+
+## Module 1: Farmer Intent and Requirement Agent
+
+Understand natural-language user requirements.
+
+Examples:
+
+- I have two acres.
+- My maximum budget is ₹40,000.
+- I do not want a crop requiring too much irrigation.
+- I need a relatively short-duration crop.
+- I want to consider soybean after the previous crop.
+- I prefer a lower-risk option.
+- I want to explore alternatives for the next season.
+
+Extract structured fields, ask only for information that is genuinely missing, and preserve original farmer wording.
+
+Do not assume a farmer's unstated financial or agricultural requirements.
+
+## Module 2: Environmental Intelligence Agent
+
+Retrieve and explain actual:
+
+- Weather.
+- Rainfall.
+- NASA observations.
+- Soil-water context.
+- Temperature trends.
+- Vegetation observations.
+- Official warnings.
+
+Attach source references and timestamps.
+
+## Module 3: Agricultural Knowledge Agent
+
+Retrieve relevant verified agronomic references and applicable regional rules.
+
+Never invent crop durations, nutrient requirements, crop families, planting periods or scientific recommendations.
+
+## Module 4: Budget and Market Intelligence Agent
+
+Interpret farmer budget constraints and retrieve current available mandi price information.
+
+Calculate supported cost estimates.
+
+Identify missing or stale prices.
+
+Never invent live prices or guaranteed profits.
+
+## Module 5: Crop-Rotation Analysis Agent
+
+Retrieve structured decision-engine output.
+
+Explain each alternative in farmer-friendly language.
+
+Do not calculate hard agricultural feasibility independently.
+
+## Module 6: Decision Explanation Agent
+
+Convert verified evidence and solver results into understandable explanations.
+
+Every important claim should reference the evidence used.
+
+Distinguish observed facts from forecasts, estimates and expert guidance.
+
+## Module 7: Follow-up and Operations Agent
+
+Use approved plans, crop timelines, real weather updates, actual completion events and validated rules to create or adjust follow-ups.
+
+Do not schedule activities based on hallucinated crop stages or unverified advice.
+
+## AI grounding architecture
+
+```text
+Farmer Question
+       |
+       v
+Intent Extraction
+       |
+       v
+Farm/Field Context Retrieval
+       |
+       v
+Verified Data and Evidence
+       |
+       v
+Relevant Decision Engine
+       |
+       v
+Structured Results
+       |
+       v
+LLM Explanation
+       |
+       v
+Farmer-Friendly Response
+```
+
+The language model is the reasoning and communication interface.
+
+Verified data services and deterministic agricultural constraints remain the source of truth.
+
+---
+
+# 11. AUTONOMOUS FOLLOW-UP ENGINE — REAL FARM OPERATIONS
+
+This is a critical differentiator.
+
+Implement a persistent event-driven follow-up engine that keeps KhetPatch synchronised with actual field conditions and farmer actions.
+
+It must not be a static reminder list.
+
+It must connect:
+
+- Approved crop-rotation plans.
+- Actual planting dates.
+- Verified crop-stage records.
+- Crop-specific operations.
+- Current weather.
+- Weather forecasts.
+- IMD warnings.
+- NASA environmental context.
+- Tasks and completion events.
+- Farmer feedback.
+- Expert decisions.
+
+## 11.1 Crop lifecycle tracking
+
+For every active crop cycle, maintain:
+
+- Crop.
+- Variety, if provided.
+- Field.
+- Planned sowing date.
+- Actual sowing date.
+- Expected duration from a verified reference.
+- Farmer-confirmed crop stage.
+- Actual operational events.
+- Expected harvest window.
+- Harvest completion date.
+- Final results where recorded.
+
+Do not infer an exact crop stage solely from calendar days if the farmer has not confirmed the stage and the underlying model has not been validated.
+
+Allow manual confirmation and correction.
+
+## 11.2 Follow-up generation
+
+After a plan is approved, generate relevant task schedules from versioned crop and agronomic rules.
+
+Each follow-up must include:
+
+- Task.
+- Crop.
+- Field.
+- Reason.
+- Due date or date window.
+- Triggering event.
+- Source/rule reference.
+- Priority.
+- Expected completion evidence.
+- Assigned user.
+- Status.
+
+Examples of possible task categories:
+
+- Field preparation.
+- Pre-sowing inspection.
+- Sowing confirmation.
+- Irrigation review.
+- Field inspection.
+- Nutrient-management review.
+- Crop-stage confirmation.
+- Harvest readiness review.
+- Post-harvest record.
+
+The actual operation and schedule must come from validated crop-specific data.
+
+Do not generate a generic identical task schedule for all crops.
+
+## 11.3 Weather-driven follow-ups
+
+Subscribe the follow-up engine to validated weather events.
+
+Examples:
+
+- IMD heavy-rain warning.
+- Relevant forecast rainfall.
+- Extended dry period.
+- Heat conditions exceeding an approved crop-stage threshold.
+- High-wind warning.
+- Weather disruption to a planned activity.
+
+When a significant event is detected:
+
+1. Identify affected farms and fields.
+2. Check crop and farmer-approved plan.
+3. Retrieve the applicable agronomic rule.
+4. Check data freshness and geographic coverage.
+5. Determine whether an existing task should be reviewed.
+6. Generate a proposed task adjustment.
+7. Notify the authorised user.
+8. Record the triggering evidence.
+
+Do not automatically issue a definitive irrigation, fertiliser or crop-protection instruction based on a single satellite grid or forecast.
+
+When an event requires agronomic judgement, request expert review.
+
+## 11.4 Follow-up decision states
+
+Support:
+
+- Scheduled.
+- Upcoming.
+- Due.
+- Overdue.
+- Weather-triggered.
+- Needs farmer confirmation.
+- Needs expert review.
+- Completed.
+- Postponed.
+- Cancelled.
+- Superseded.
+
+Never mark an activity completed without an actual completion record.
+
+## 11.5 Dynamic schedule adjustments
+
+When new data becomes available:
+
+- Compare it to the currently approved plan.
+- Detect material changes.
+- Check relevant rules.
+- Explain the potential impact.
+- Propose an updated task or timeline.
+- Request approval where required.
+- Retain the previous schedule in history.
+
+Do not silently rewrite farmer-approved tasks.
+
+## 11.6 Farmer feedback loop
+
+After every critical task, collect:
+
+- Completed?
+- When?
+- What was observed?
+- Did conditions differ from expectations?
+- Was the planned activity postponed?
+- Any field issue?
+- Optional photograph or note.
+- Expert assistance needed?
+
+Persist this information to the field timeline.
+
+Use the actual feedback to update field context and the next planning cycle.
+
+## 11.7 Follow-up automation reliability
+
+Implement:
+
+- Persistent scheduled jobs.
+- Event-driven triggers.
+- Idempotency keys.
+- Duplicate notification prevention.
+- Retry logic.
+- Audit records.
+- Timezone-correct scheduling.
+- User notification preferences.
+- Job monitoring.
+
+Do not depend on the frontend being open for reminders and scheduled work to happen.
+
+---
+
+# 12. RECOMMENDATION SYNCHRONISATION AND DATA CHANGE MANAGEMENT
+
+The entire system must remain synchronised.
+
+Implement a central event-driven architecture.
+
+Events may include:
+
+```text
+FARM_LOCATION_UPDATED
+FIELD_BOUNDARY_UPDATED
+SOIL_TEST_UPLOADED
+CROP_HISTORY_UPDATED
+PLANTING_DATE_CONFIRMED
+WEATHER_OBSERVATION_UPDATED
+WEATHER_FORECAST_UPDATED
+IMD_WARNING_RECEIVED
+NASA_OBSERVATION_INGESTED
+MARKET_PRICE_UPDATED
+BUDGET_UPDATED
+ROTATION_PLAN_APPROVED
+TASK_CREATED
+TASK_COMPLETED
+FOLLOW_UP_TRIGGERED
+FARMER_FEEDBACK_RECEIVED
+EXPERT_REVIEW_COMPLETED
+```
+
+When a relevant event occurs:
+
+1. Persist the event.
+2. Identify affected farms and fields.
+3. Rebuild the relevant data context.
+4. Determine whether the previous recommendation is affected.
+5. Recalculate only when necessary.
+6. Store a new decision version where appropriate.
+7. Notify authorised users.
+8. Update future follow-ups where justified.
+
+Use reliable event processing with retries and duplicate prevention.
+
+Do not regenerate every recommendation on every minor data refresh.
+
+Define materiality rules so that only relevant changes trigger reassessment.
+
+---
+
+# 13. DATA FRESHNESS, QUALITY AND SOURCE TRUST
+
+Create a unified Data Reliability Engine.
+
+Every source record must include:
+
+```text
+provider
+dataset
+product_version
+variable
+unit
+spatial_resolution
+observation_start
+observation_end
+publication_time
+retrieval_time
+processing_time
+quality_status
+quality_flags
+validity_status
+source_url
+source_record_id
+```
+
+Build source-specific freshness policies.
+
+Suggested starting principles:
+
+| Source | Intended use | Freshness policy |
+|---|---|---|
+| IMD warnings/nowcast | Operational weather alerts | Respect official bulletin validity and update time |
+| IMD forecast | Short-term agricultural planning | Respect issue time and forecast period |
+| Open-Meteo | Supporting hourly/daily forecasts | Track model run and provider update time |
+| GPM IMERG Early | Low-latency precipitation context | Record actual granule time and publication delay |
+| SMAP L4 | Regional soil-water context | Respect actual archive publication latency |
+| NASA POWER | Historical meteorological context | Track source time period and release status |
+| Landsat | Periodic vegetation context | Track acquisition and processing dates |
+| AGMARKNET | Daily market prices | Track arrival date and publication/retrieval time |
+| Soil test | Soil profile | Track sample date and laboratory result date |
+| Agricultural knowledge | Agronomic rules | Track publication/version and verification status |
+
+If the source is unavailable, return the last valid observation with an explicit stale/cached label.
+
+Never silently use stale information as current information.
+
+When sources conflict, preserve the conflict and explain which source was prioritised and why.
+
+---
+
+# 14. USER REQUIREMENT SYNCHRONISATION
+
+Build a persistent farmer requirements profile.
+
+A farmer must be able to specify and change:
+
+## Financial requirements
+
+- Total budget.
+- Per-acre budget.
+- Category budgets.
+- Expected expenditure timing.
+- Available capital.
+- Risk tolerance.
+
+## Agricultural requirements
+
+- Preferred crops.
+- Crops to avoid.
+- Desired crop duration.
+- Preferred sowing period.
+- Rotation preferences.
+- Soil stewardship priorities.
+- Water requirements.
+- Irrigation limitations.
+
+## Operational requirements
+
+- Labour.
+- Machinery.
+- Seeds and input availability.
+- Available storage.
+- Harvest/transport requirements.
+- Time availability.
+
+## Business requirements
+
+- Nearby market preference.
+- Selling window.
+- Minimum acceptable price where supplied.
+- Market access constraints.
+- FPO membership where applicable.
+
+## Personal preferences
+
+- Lower upfront cost.
+- Lower water dependence.
+- Familiar crops.
+- Shorter duration.
+- Soil stewardship.
+- Potential higher returns where evidence permits.
+- Risk reduction.
+
+Every time the farmer changes an important preference, update the decision context and mark affected existing recommendations for reassessment.
+
+Do not overwrite farmer preferences without explicit confirmation.
+
+---
+
+# 15. REQUIRED FARMER USER JOURNEY
+
+This entire journey must work using real data.
+
+### Step 1: Register or log in
+
+Authenticate the user and resolve the correct workspace.
+
+### Step 2: Register farm
+
+Capture and confirm actual farm location.
+
+### Step 3: Register field
+
+Capture the boundary, area and current field information.
+
+### Step 4: Capture agricultural profile
+
+Record:
+
+- Current crop.
+- Previous crops.
+- Soil information.
+- Water availability.
+- Irrigation.
+- Sowing/harvest dates.
+- Farmer preferences.
+
+### Step 5: Set financial constraints
+
+Capture budget, available resources and input-cost information.
+
+### Step 6: Retrieve external data
+
+Automatically obtain available information for the actual location:
+
+- IMD weather.
+- IMD forecast.
+- IMD warnings.
+- NASA rainfall data.
+- NASA soil-moisture context.
+- NASA POWER information.
+- Landsat observation where available.
+- Mandi prices.
+- Local agronomic references.
+
+Display what was successfully retrieved and what is unavailable.
+
+### Step 7: Build decision context
+
+Validate the inputs and show a concise data-readiness summary.
+
+### Step 8: Run crop-rotation analysis
+
+Evaluate existing, minimal-change and alternative crop sequences.
+
+### Step 9: Compare economic and agricultural trade-offs
+
+Display costs, market context, water needs, weather constraints and source-backed agricultural reasoning.
+
+### Step 10: Farmer decision
+
+Allow the user to choose, reject or request expert review.
+
+### Step 11: Save approved plan
+
+Persist the exact context snapshot, strategy version and evidence.
+
+### Step 12: Activate follow-ups
+
+Generate crop-specific tasks and reminders.
+
+### Step 13: Monitor new information
+
+Observe material weather updates, warnings and relevant environmental data changes.
+
+### Step 14: Update farmer
+
+Suggest relevant action or a review when justified.
+
+### Step 15: Record outcomes
+
+Capture completion, postponement, observations and feedback.
+
+### Step 16: Improve next cycle
+
+Use the updated farm history and actual results in future decisions.
+
+---
+
+# 16. UI IMPLEMENTATION FOR THIS DATA INTELLIGENCE LAYER
+
+Preserve the existing KhetPatch reference design.
+
+Use the established navy, lime, cyan and dark-green design language.
+
+Implement the following screens.
+
+## Environmental Intelligence Centre
+
+Show:
+
+- Actual location.
+- Current weather status.
+- Forecast.
+- Rainfall history.
+- IMD warnings.
+- NASA observations.
+- Soil data status.
+- Landsat acquisition history.
+- Source health.
+- Observation freshness.
+
+## Farm Decision Context
+
+Show a unified view of:
+
+- Farm and field.
+- Farmer priorities.
+- Available data.
+- Missing data.
+- Budget.
+- Soil profile.
+- Weather.
+- Historical records.
+- Market information.
+- Relevant agricultural knowledge.
+
+Allow authorised users to inspect the evidence.
+
+## Crop-Rotation Intelligence
+
+For all three strategies show:
+
+- Feasibility.
+- Crop sequence.
+- Budget.
+- Timing.
+- Environmental suitability.
+- Soil considerations.
+- Market context.
+- Risks.
+- Missing information.
+- Evidence sources.
+- Confidence.
+- Expert review.
+
+## Follow-up and Operations Centre
+
+Show:
+
+- Active crop cycles.
+- Upcoming tasks.
+- Weather-triggered reviews.
+- Overdue activities.
+- Farmer feedback.
+- Completed actions.
+- Field timelines.
+
+## Data Provider Health Centre
+
+For each provider display:
+
+- Connected or disconnected.
+- Most recent successful fetch.
+- Latest available observation.
+- Latest processing time.
+- Errors.
+- Data age.
+- Records processed.
+- Current credential status.
+- Next scheduled refresh.
+
+Do not display a fake green connected status when a provider has not actually passed a connection test.
+
+---
+
+# 17. BACKEND SERVICES AND API REQUIREMENTS
+
+Implement distinct services:
+
+```text
+services/
+  location_service.py
+  geographic_context_service.py
+  weather_intelligence_service.py
+  nasa_observation_service.py
+  soil_intelligence_service.py
+  agronomic_knowledge_service.py
+  market_intelligence_service.py
+  farmer_requirements_service.py
+  farm_decision_context_service.py
+  budget_optimizer.py
+  crop_rotation_engine.py
+  environmental_risk_engine.py
+  recommendation_explanation_service.py
+  followup_engine.py
+  event_processor.py
+  data_quality_service.py
+  data_freshness_service.py
+```
+
+Create endpoints such as:
+
+```text
+POST /api/v1/location/resolve
+POST /api/v1/farms/{farm_id}/context/refresh
+
+GET  /api/v1/weather/current
+GET  /api/v1/weather/forecast
+GET  /api/v1/weather/warnings
+
+GET  /api/v1/nasa/observations
+POST /api/v1/nasa/refresh
+
+GET  /api/v1/soil/{field_id}
+POST /api/v1/soil/{field_id}/upload
+
+GET  /api/v1/markets/prices
+GET  /api/v1/markets/nearby
+
+POST /api/v1/farmer-requirements
+GET  /api/v1/farmer-requirements
+
+POST /api/v1/decision-context/build
+GET  /api/v1/decision-context/{context_id}
+
+POST /api/v1/rotation/analyze
+GET  /api/v1/rotation/{analysis_id}
+
+POST /api/v1/rotation/{plan_id}/approve
+
+GET  /api/v1/followups
+POST /api/v1/followups
+POST /api/v1/followups/{id}/complete
+POST /api/v1/followups/{id}/postpone
+
+GET  /api/v1/intelligence/provider-health
+GET  /api/v1/intelligence/data-readiness
+```
+
+Use the existing API conventions where they are already functional.
+
+All endpoints must enforce authenticated access and field/organisation permissions.
+
+---
+
+# 18. TESTING: PROVE THAT THE AI ACTUALLY USES LIVE DATA
+
+This section is mandatory.
+
+A successful API connection is not enough.
+
+You must prove that the retrieved data influences the application.
+
+Build an end-to-end integration test that demonstrates:
+
+1. A user registers.
+2. The user creates a real geographically identified farm.
+3. A field is created.
+4. Actual weather data is retrieved for that field.
+5. Actual NASA data is retrieved where the configured product is accessible.
+6. Actual market-price data is retrieved where credentials and records are available.
+7. Farm and crop history are retrieved from the database.
+8. Budget and farmer priorities are captured.
+9. The unified decision context is built.
+10. The crop-rotation engine consumes that context.
+11. Its constraints and economic calculations are executed.
+12. Three strategy categories are generated only when feasible.
+13. Each strategy records its input snapshot and evidence.
+14. The AI explanation references those exact records.
+15. A farmer-approved plan is saved.
+16. The follow-up engine creates appropriate tasks.
+17. A new weather event is ingested.
+18. The system evaluates whether a follow-up adjustment is required.
+19. The farmer receives a traceable notification.
+20. Farmer feedback is saved.
+21. The next decision context reflects the updated field history.
+
+## Mandatory evidence test
+
+Temporarily change a relevant input in a controlled test environment:
+
+- Move the test field to another district.
+- Change the farmer's budget.
+- Change irrigation availability.
+- Change crop history.
+- Change planting date.
+
+Then demonstrate that:
+
+- Geographic data changes when location changes.
+- Relevant weather and crop rules are re-resolved.
+- Financial feasibility changes when budget changes.
+- Crop sequence feasibility changes when crop history changes.
+- Follow-up dates change when actual planning inputs change.
+
+The test must demonstrate a real dependency between input data and decision output.
+
+A generated recommendation that is unchanged despite materially different input requirements must be investigated.
+
+Use controlled test fixtures for repeatable unit testing, but keep those fixtures clearly distinguished from actual live integration evidence.
+
+Never label mock tests as live provider tests.
+
+---
+
+# 19. OPERATIONAL DATA REFRESH POLICY
+
+Implement source-specific scheduled jobs.
+
+Possible scheduling architecture:
+
+- Weather observations and forecasts: refresh according to provider cadence and operational usefulness.
+- IMD warnings: refresh frequently enough to detect updated bulletins, respecting provider limits.
+- GPM Early Run: check for newly available eligible granules.
+- SMAP L4: check for newly published valid archive data rather than repeatedly requesting unavailable records.
+- NASA POWER: refresh according to product availability and the requested date range.
+- Landsat: periodically discover newly published scenes for the field.
+- AGMARKNET: refresh when new daily market records become available.
+- Soil tests: update only when a new verified report is submitted.
+- Crop knowledge: review when a new official publication/version appears.
+
+Do not use a single identical refresh interval for every provider.
+
+Do not exceed provider access and rate limits.
+
+Implement manual refresh where relevant.
+
+Implement scheduled ingestion, retries and alerts for failures.
+
+Use the observation timestamp rather than the retrieval time as the actual observation date.
+
+---
+
+# 20. IMPLEMENTATION PRIORITY
+
+Implement in this exact order.
+
+## P0 — Real Data Foundation
+
+1. Farm location and geometry.
+2. Verified data source registry.
+3. IMD current weather and forecasts.
+4. NASA GPM IMERG.
+5. NASA SMAP L4.
+6. NASA POWER.
+7. Actual field data persistence.
+8. Data freshness and quality validation.
+9. Unified Farm Decision Context.
+
+## P0 — Agricultural Decision Engine
+
+1. Farmer requirements.
+2. Regional crop knowledge.
+3. Soil information.
+4. Weather constraints.
+5. Crop-history constraints.
+6. Budget calculations.
+7. Market data.
+8. Three strategy comparison.
+9. Evidence and feasibility.
+
+## P0 — Continuous Intelligence
+
+1. AI context retrieval.
+2. Evidence-based recommendation explanations.
+3. Active crop-cycle records.
+4. Follow-up scheduling.
+5. Weather-event processing.
+6. Farmer feedback.
+7. Reassessment and notifications.
+
+## P1 — Extended Intelligence
+
+1. Landsat processing and vegetation history.
+2. Detailed environmental mapping.
+3. Price history analysis.
+4. Crop economics comparison.
+5. More sophisticated multi-objective optimisation.
+6. Regional-language AI.
+7. Advanced expert reporting.
+
+Do not stop after implementing provider connectors.
+
+The main deliverable is a working chain from source retrieval to actual agricultural decisions and operational follow-ups.
+
+---
+
+# 21. FINAL ACCEPTANCE CONDITIONS
+
+Do not consider this phase complete until all of the following have been verified.
+
+- [ ] Farmer location is captured and confirmed.
+- [ ] Actual field geometry is stored.
+- [ ] Data retrieval uses actual farm coordinates.
+- [ ] Current weather provider works.
+- [ ] Forecast provider works.
+- [ ] IMD warning/advisory integration is implemented and tested where access permits.
+- [ ] GPM connector retrieves and processes actual eligible observations.
+- [ ] SMAP connector retrieves and processes actual eligible observations.
+- [ ] NASA POWER connector works.
+- [ ] Landsat connector works or has a verified documented external-access blocker.
+- [ ] Soil tests can be stored and retrieved.
+- [ ] Local agricultural knowledge is source-backed.
+- [ ] Nearby market prices come from actual available market data.
+- [ ] Farmer input costs are traceable.
+- [ ] Budget constraints are enforced.
+- [ ] Weather factors affect relevant decisions.
+- [ ] Crop history affects rotation feasibility.
+- [ ] Location changes affect the context.
+- [ ] Missing evidence is identified.
+- [ ] The three strategy options are generated using real structured inputs.
+- [ ] LLM explanations use stored evidence and engine results.
+- [ ] Approved plans generate follow-up schedules.
+- [ ] Material weather updates trigger a rule-based follow-up assessment.
+- [ ] Farmer feedback updates the field timeline.
+- [ ] All decisions are versioned and auditable.
+- [ ] Tenant and role permissions are tested.
+- [ ] Integration logs prove the live provider requests occurred.
+- [ ] No simulated metric is presented as a real observation.
+
+---
+
+# 22. MANDATORY IMPLEMENTATION REPORT
+
+After completing this phase, provide a detailed implementation report.
+
+For each provider, report:
+
+- Provider name.
+- API endpoint or collection.
+- Authentication method.
+- Integration status.
+- Last successful request.
+- Actual observation timestamp.
+- Retrieved variable names.
+- Units.
+- Spatial and temporal resolution.
+- Records saved.
+- Known latency.
+- Errors, if any.
+
+For the decision engine, report:
+
+- Inputs actually consumed.
+- Hard constraints implemented.
+- Economic factors implemented.
+- Strategy-generation result.
+- Missing information handling.
+- Recommendation reproducibility.
+
+For the follow-up engine, report:
+
+- Events consumed.
+- Rules evaluated.
+- Tasks generated.
+- Weather-trigger tests.
+- Duplicate prevention.
+- Farmer feedback persistence.
+
+For the AI modules, report:
+
+- Which real context fields each module retrieves.
+- How evidence is passed to the model.
+- How unsupported claims are prevented.
+- How recommendations are linked to source records.
+
+Classify each feature as:
+
+1. Implemented and verified with actual external data.
+2. Implemented and verified with controlled test fixtures only.
+3. Implemented but waiting for external credentials or access.
+4. Not implemented.
+
+Provide links to logs, tests, source-code modules and deployed screens wherever available.
+
+**Never claim that a module uses real-time data merely because a connector has been written. Demonstrate the actual retrieval, persistence and downstream use of the records.**
+
+---
+
+# FINAL DIRECTIVE
+
+KhetPatch must become a living, location-aware agricultural decision-support system.
+
+Its intelligence must respond to the farmer's actual field, local weather, soil information, crop history, market context, available funds and individual priorities.
+
+Its recommendations must be agriculturally feasible and financially transparent.
+
+Its AI must explain decisions using traceable evidence.
+
+Its follow-up engine must continue working after the farmer leaves the application, monitor relevant changes and keep approved farming workflows synchronised with real events.
+
+**Do not build a chatbot that talks about farming. Build an intelligent agricultural operating system that uses real data to support real farm decisions.**
+
+Begin by auditing the existing KhetPatch repository and implementing this specification into the working application. Preserve all existing functional modules and the attached visual identity. Execute, integrate, test and repair. Do not return another design proposal in place of implementation.

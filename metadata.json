@@ -1,0 +1,10 @@
+{
+  "name": "Remix KhetPatch",
+  "description": "Enterprise-grade, NASA-powered agricultural intelligence and crop-rotation decision-support platform.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

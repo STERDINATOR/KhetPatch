@@ -1,0 +1,2275 @@
+# KHETPATCH — ULTIMATE MASTER BUILD SPECIFICATION
+## Enterprise-grade, NASA-powered agricultural intelligence and crop-rotation decision-support platform
+
+**Project:** KhetPatch  
+**Tagline:** Better Crops. Healthier Soil. Brighter Tomorrow.  
+**Competition:** NASA Space Apps Challenge  
+**Team:** Codex  
+**Institution:** Sanjivani University, Kopargaon, Maharashtra, India
+
+---
+
+# 1. YOUR ROLE AND MISSION
+
+Act as a principal software architect, senior full-stack engineer, geospatial data engineer, NASA Earth-observation specialist, agricultural decision-support engineer, AI engineer, cybersecurity specialist, database architect and premium product designer.
+
+Your task is to design, implement, test and deploy **KhetPatch as a complete, functional, enterprise-grade web application**.
+
+Do not deliver merely a landing page, UI prototype, static dashboard, architectural proposal or collection of disconnected components.
+
+Build the actual system, with real authentication, persistent database records, functioning user workflows, NASA data integrations, geospatial processing, crop-rotation decision logic, AI-assisted interactions, role-based workspaces, notifications, reporting, testing and deployment configuration.
+
+**Your primary instruction is to execute the build, not simply describe how you would build it.**
+
+Inspect the existing repository and its available infrastructure first. Reuse working components where appropriate. Avoid unnecessarily replacing functional existing code.
+
+Do not stop after creating an implementation plan. Divide the work into sensible engineering phases, implement each phase, run the application, execute tests, fix errors and continue until the acceptance criteria at the end of this specification are met or you identify a genuine external blocker.
+
+Do not ask me to make routine architectural decisions. Choose sensible defaults and document them.
+
+When a required external credential is unavailable, implement the real integration, configuration and error handling, identify exactly which secret is missing, and continue building all components that do not depend on it.
+
+---
+
+# 2. PRODUCT VISION
+
+KhetPatch is an AI-powered, NASA Earth-observation-driven agricultural intelligence platform designed to support better crop-rotation and farm-management decisions.
+
+Its purpose is to connect:
+
+- NASA Earth-observation datasets.
+- Environmental conditions and historical trends.
+- Farmer-provided soil and field information.
+- Previous and current crops.
+- Crop characteristics and rotation requirements.
+- Regional agricultural knowledge.
+- Farmer priorities and constraints.
+- Agronomist expertise.
+- Real-world farming activities and follow-ups.
+
+The objective is to translate complex environmental information into understandable, field-aware agricultural decision support.
+
+KhetPatch is not a generic chatbot and must not behave like one.
+
+It must maintain persistent knowledge about each farm and field, remember previous decisions, record completed activities and help farmers understand what they should consider doing next.
+
+## Core product cycle
+
+OBSERVE → UNDERSTAND → RECOMMEND → ACT → FOLLOW UP → IMPROVE
+
+## Three core crop-rotation strategies
+
+Every eligible field should be evaluated against three strategy categories:
+
+1. **Existing Rotation:** Analyse and explain the farmer's current or planned crop sequence.
+2. **Minimal Change Rotation:** Propose a feasible improvement while preserving as much of the existing farming approach as possible.
+3. **Alternative Rotation:** Explore a different feasible sequence with potentially different soil, water, crop-diversity and climate-related trade-offs.
+
+Do not manufacture three recommendations when there is insufficient information or a strategy fails feasibility checks.
+
+Explain when a strategy is unavailable, why it is unsuitable, what information is missing and what an expert should verify.
+
+---
+
+# 3. NON-NEGOTIABLE IMPLEMENTATION RULES
+
+These rules apply to the entire project.
+
+1. Every important visible button must perform its advertised action.
+2. Every form must validate, submit and persist its data.
+3. Dashboards must retrieve records from the actual database.
+4. NASA metrics must originate from actual configured provider integrations.
+5. Never hardcode fabricated environmental measurements into production dashboards.
+6. Clearly identify synthetic demonstration records as DEMO DATA.
+7. Never represent a planned integration as an operational integration.
+8. Never represent unavailable, stale or cached data as newly observed data.
+9. Never claim that a crop is agronomically feasible unless the configured rules support that conclusion.
+10. Never let an LLM invent satellite observations, crop characteristics, soil measurements or agricultural research citations.
+11. Never use frontend-only role checks as a security mechanism.
+12. Never put private credentials in frontend bundles, source control or publicly accessible configuration.
+13. Never expose Supabase service-role credentials.
+14. All user-specific and organization-specific database operations must enforce authorization.
+15. Failed external integrations must produce informative errors and provider-health records, not fake success states.
+16. Every major workflow must have a functional empty state, loading state, success state and failure state.
+17. The interface must be responsive and usable on desktop, tablet and mobile.
+18. Do not use random values, fabricated charts, meaningless placeholder statistics or fake activity feeds.
+19. Do not silently overwrite farmer-approved plans when new data arrives.
+20. Do not claim that a prototype has production-grade security or validated agronomic outcomes without evidence.
+
+Build a reliable working product first. Visual design and functionality must complement one another.
+
+---
+
+# 4. VISUAL DESIGN: FOLLOW THE ATTACHED REFERENCE IMAGE
+
+The attached KhetPatch landing-page image is the canonical visual reference.
+
+Inspect it carefully before designing the frontend.
+
+**The landing page must follow its layout, colours, hierarchy, visual effects, component proportions and overall aesthetic as closely as practical.**
+
+Do not replace this design with a generic SaaS template.
+
+## 4.1 Overall aesthetic
+
+Create a premium, cinematic, futuristic agricultural intelligence experience.
+
+Use:
+
+- Midnight navy.
+- Deep ocean blue.
+- Dark forest green.
+- Luminous lime green.
+- Cyan and turquoise satellite highlights.
+- White and off-white typography.
+- Restrained neutral surfaces.
+- Subtle green and cyan glows.
+- Soft glass-like metric cards.
+- Carefully controlled gradients.
+- High-quality agricultural and Earth-observation imagery.
+
+Suggested design tokens:
+
+```css
+--navy-950: #03152B;
+--navy-900: #071E38;
+--navy-800: #0B2A48;
+--forest-900: #063D2A;
+--forest-800: #075A36;
+--green-600: #45B83A;
+--lime-400: #A7F33C;
+--lime-300: #C4FF63;
+--cyan-400: #27D7ED;
+--cyan-300: #6BEAFF;
+--surface: #F8FBF6;
+--text-primary: #10251D;
+--text-secondary: #52635C;
+--border-soft: #DCE8DC;
+```
+
+Use the font system that most closely reproduces the reference: a geometric sans-serif with strong headings, readable body text and clear numerical typography.
+
+Use Lucide icons, custom SVG illustrations and optimised image assets.
+
+Do not create an overly complicated animation system. Animations must be subtle and performant.
+
+## 4.2 Landing-page navigation
+
+Build the exact navigation structure shown in the reference:
+
+- KhetPatch logo and wordmark.
+- Home.
+- How It Works.
+- NASA Data.
+- For Farmers.
+- For Experts.
+- Resources.
+- About.
+- Language selector.
+- Log In.
+- Get Started.
+
+Requirements:
+
+- Sticky navigation.
+- Responsive mobile navigation.
+- Active page highlighting.
+- Functional navigation links.
+- Language selector interface.
+- Proper authentication navigation.
+- Clear CTA buttons.
+
+The KhetPatch logo should use a custom agriculture-inspired SVG mark featuring leaves and field lines.
+
+## 4.3 Hero section
+
+Recreate the reference hero composition.
+
+Desktop layout:
+
+**Left side:**
+
+A NASA Earth observations and agricultural intelligence badge.
+
+Main heading:
+
+"Better Crops.  
+Healthier Soil.  
+Brighter Tomorrow."
+
+Highlight "Healthier Soil." using luminous lime green.
+
+Supporting text:
+
+"KhetPatch brings NASA Earth observations and local agricultural knowledge together to help farmers explore smarter crop rotations and build resilience to changing conditions."
+
+Primary CTA: Explore KhetPatch.
+
+Secondary CTA: How It Works.
+
+Below the CTA, show four feature indicators:
+
+- Crop Rotation Planning.
+- NASA Observations.
+- Soil Health Insights.
+- Climate Resilience.
+
+**Central/right visual:**
+
+Create an immersive agricultural Earth-observation environment featuring:
+
+- A detailed planet Earth.
+- India or the relevant geography highlighted where appropriate.
+- Satellite spacecraft.
+- A subtle observation beam illuminating farmland.
+- Layered agricultural fields.
+- Root and soil cross-section.
+- Sunrise or atmospheric lighting.
+- Subtle geospatial grid overlays.
+
+Use separate visual assets and CSS/SVG layers, rather than placing a screenshot of the complete website behind the interface.
+
+**Right-side floating metric cards:**
+
+1. Rainfall: latest available accumulation over a selectable period.
+2. Soil Moisture: latest available valid SMAP observation.
+3. Vegetation Indicator: latest valid cloud-screened Landsat-derived NDVI, if available.
+4. Temperature: latest applicable NASA POWER period.
+
+Every metric must be dynamically retrieved.
+
+Each card must show:
+
+- Metric label.
+- Value.
+- Correct unit.
+- Provider/dataset.
+- Observation date/time.
+- Retrieval or publication time where available.
+- Data freshness.
+- Quality/availability status.
+
+Do not use the illustrative reference-image values (62 mm, 0.28 m³/m³, 0.76 NDVI or 28.4°C) as real default data.
+
+Without a selected farm, show an honest location-selection state.
+
+When a source does not have a sufficiently recent observation, show its last valid observation and age rather than inventing a fresh value.
+
+## 4.4 Earth-to-farm process strip
+
+Reproduce the wide glass-effect process bar:
+
+"From Space to Your Farm"
+
+Show four stages:
+
+1. Observe from Space.
+2. Understand Your Land.
+3. Compare Crop Rotations.
+4. Make an Informed Decision.
+
+Connect the stages visually with arrows.
+
+On smaller screens, use a clean horizontally scrollable or stacked presentation.
+
+## 4.5 Crop-rotation strategy section
+
+Build the section shown in the reference.
+
+Heading:
+
+"Three Crop-Rotation Strategies for Smarter Farming"
+
+Subheading:
+
+"Compare practical options, understand the trade-offs and choose what works best for your farm."
+
+Create exactly three high-quality cards:
+
+**Card 1: Existing Rotation**
+
+- Green treatment.
+- Current crop sequence.
+- Field history.
+- Environmental context.
+- Baseline assessment.
+
+**Card 2: Minimal Change Rotation**
+
+- Amber treatment.
+- Feasible changes.
+- Lower disruption to existing practices.
+- Explanation of trade-offs.
+
+**Card 3: Alternative Rotation**
+
+- Violet treatment.
+- Different feasible crop sequence.
+- Potential soil and water considerations.
+- Explanation of trade-offs.
+
+Each card must open a detailed comparison, not a non-functional illustration.
+
+---
+
+# 5. PUBLIC WEBSITE INFORMATION ARCHITECTURE
+
+Build a complete marketing website, not only one landing page.
+
+## Home
+
+- Cinematic hero.
+- Live environmental cards.
+- Earth-to-farm process.
+- Three crop-rotation strategy cards.
+- Main feature highlights.
+- NASA data integrations.
+- How KhetPatch works.
+- Farmer benefits.
+- Expert and organizational use cases.
+- Trust and data-transparency section.
+- Final CTA.
+- Footer.
+
+## How It Works
+
+Explain:
+
+Observe → Understand → Recommend → Act → Follow Up → Improve.
+
+Show the full journey:
+
+Farmer creates farm → Adds fields → Records previous crops → Environmental data is retrieved → Agricultural constraints are evaluated → Strategies are generated → Farmer reviews a plan → Tasks are created → Follow-ups record outcomes → Farm knowledge improves.
+
+## NASA Data
+
+Present separate dataset information cards.
+
+Explain:
+
+- Dataset purpose.
+- Product and version.
+- Resolution.
+- Temporal frequency.
+- Observation timestamp.
+- Availability and latency.
+- Quality limitations.
+- How KhetPatch uses the data.
+- Official provider links.
+
+Include an environmental data map and actual observations where the configured provider supports them.
+
+## For Farmers
+
+Describe field management, rotation exploration, local information, reminders, farm history and the AI farm assistant.
+
+## For Experts
+
+Explain farmer support, agronomic review, crop knowledge, environmental interpretation, recommendation approval and reports.
+
+## Resources
+
+Include:
+
+- Agricultural knowledge library.
+- NASA data references.
+- Crop-rotation education.
+- FAQs.
+- User guides.
+- Research references.
+- Help centre.
+
+## About
+
+Explain the KhetPatch mission, approach, methodology, data sources and responsible-use principles.
+
+## Authentication
+
+Implement real login, signup, email verification, password recovery and authenticated workspace selection.
+
+---
+
+# 6. TECHNOLOGY ARCHITECTURE
+
+Use a maintainable, production-oriented architecture.
+
+## Frontend
+
+- Next.js App Router.
+- React.
+- Strict TypeScript.
+- Tailwind CSS.
+- shadcn/ui.
+- Lucide icons.
+- React Hook Form.
+- Zod validation.
+- TanStack Query where useful.
+- MapLibre GL or Leaflet for geographic interfaces.
+- Recharts or an equivalent accessible chart library.
+
+Use stable, mutually compatible package versions and commit the lockfile.
+
+## Backend
+
+- Python.
+- FastAPI.
+- Pydantic.
+- SQLAlchemy.
+- Alembic.
+- Pandas.
+- NumPy.
+- Xarray.
+- Rasterio.
+- GeoPandas.
+- Shapely.
+- PyProj.
+- OR-Tools.
+- NetCDF/HDF readers as required by actual NASA products.
+
+## Database and authentication
+
+Use Supabase:
+
+- PostgreSQL.
+- PostGIS.
+- Supabase Auth.
+- Supabase Storage.
+- Supabase Realtime where useful.
+
+Supabase must provide persistent data, not simply act as a decorative integration.
+
+## AI
+
+Use a server-side LLM provider adapter, configurable with an OpenAI-compatible provider.
+
+The exact model must be configurable through environment variables.
+
+AI should handle:
+
+- Natural-language questions.
+- Speech-to-text integration where available.
+- Field-context retrieval.
+- Recommendation explanation.
+- Structured extraction from farmer conversations.
+- Summaries.
+- Follow-up assistance.
+
+The LLM must NOT replace the deterministic agricultural feasibility engine.
+
+## Architecture diagram
+
+Implement a clear separation:
+
+```text
+Next.js Web Application
+        |
+        v
+FastAPI Application Layer
+        |
+        +---- Authentication and Authorization
+        |
+        +---- Farm and Field Services
+        |
+        +---- NASA Data Connectors
+        |
+        +---- Geospatial Processing
+        |
+        +---- Agricultural Knowledge Base
+        |
+        +---- Crop-Rotation Decision Engine
+        |
+        +---- AI Assistant and RAG
+        |
+        +---- Tasks and Follow-ups
+        |
+        v
+Supabase PostgreSQL + PostGIS + Storage
+        |
+        v
+Ingestion and Scheduled Background Workers
+        |
+        +---- NASA GPM IMERG
+        +---- NASA SMAP
+        +---- NASA POWER
+        +---- Landsat 8/9 Collection 2
+```
+
+Keep the frontend and backend responsibilities distinct.
+
+Do not place geospatial processing, API credentials or decision-engine calculations in client-side code.
+
+---
+
+# 7. NASA DATA INTEGRATION: CRITICAL REQUIREMENT
+
+This is one of the most important parts of KhetPatch.
+
+Build actual, independently testable connectors for the NASA data sources below.
+
+Do not substitute manually entered values or fictional API responses.
+
+The system must retrieve available observations, process them, store them, relate them to the correct farm or field and use them in the application.
+
+## 7.1 NASA GPM IMERG precipitation
+
+Official source:
+
+https://gpm.nasa.gov/data/imerg
+
+Implement a connector for the appropriate GPM IMERG product and run.
+
+Support the relevant product variants:
+
+- Early Run.
+- Late Run.
+- Final Run.
+
+Use the latest appropriate product collection available through the provider catalogue. Do not assume collection versions will never change.
+
+Prioritise Early Run when low-latency precipitation information is required and it is genuinely available.
+
+Retrieve precipitation data using official NASA/GES DISC or NASA Precipitation Processing System access routes and the applicable Earthdata authentication.
+
+Implement provider discovery through NASA collection/granule metadata rather than relying on an unverified hardcoded file path.
+
+Requirements:
+
+- Search for granules covering the selected field.
+- Retrieve the correct observation interval.
+- Parse the actual raster or scientific data format.
+- Decode the relevant variable.
+- Interpret scale factors and units correctly.
+- Apply quality and validity flags where provided.
+- Calculate daily and selectable-period rainfall accumulation where the source product supports it.
+- Preserve actual observation dates and product/run information.
+- Store the original source reference.
+- Display the relevant spatial resolution.
+
+Use the product's correct precipitation semantics.
+
+Never confuse precipitation rate with accumulated rainfall.
+
+Do not aggregate rates as accumulated amounts without the correct temporal conversion.
+
+## 7.2 NASA SMAP L4 soil moisture
+
+Official source:
+
+https://nsidc.org/data/smap
+
+Primary product families:
+
+- SPL4SMAU.
+- SPL4SMGP.
+
+Use the most appropriate current product and version discovered through official metadata.
+
+SMAP L4 offers approximately 3-hourly soil-moisture estimates on a 9 km grid, but its public archive availability can lag the nominal observation interval.
+
+Implement:
+
+- Earthdata authentication.
+- Collection and granule discovery.
+- Download or supported remote subsetting.
+- NetCDF/HDF data parsing.
+- Surface soil-moisture extraction.
+- Root-zone soil-moisture extraction where available.
+- Correct physical units.
+- Product quality flags.
+- Geospatial intersection with selected farm/field geometry.
+- Observation and publication timestamps.
+
+Clearly explain that these values are regional gridded estimates, not direct field probes or laboratory soil tests.
+
+Never display a field-level certainty that the native data resolution cannot support.
+
+## 7.3 NASA POWER
+
+Official API documentation:
+
+https://power.larc.nasa.gov/docs/services/api/
+
+Implement actual REST API requests to the official NASA POWER temporal endpoints.
+
+Use:
+
+- Hourly Point API where appropriate.
+- Daily Point API where appropriate.
+- Correct coordinates.
+- Correct parameter names.
+- Correct community selection.
+- Correct time standard.
+- Actual API response validation.
+
+Retrieve relevant agricultural meteorological variables, subject to current provider availability.
+
+Potential parameters to validate through the provider's current API configuration include:
+
+- T2M.
+- T2M_MAX.
+- T2M_MIN.
+- RH2M.
+- WS2M.
+- PRECTOTCORR.
+- ALLSKY_SFC_SW_DWN.
+
+Do not assume an unverified parameter is supported by every temporal API.
+
+Calculate:
+
+- Historical weather trends.
+- Temperature averages and extremes.
+- Rainfall trends.
+- Solar radiation patterns.
+- Seasonal environmental summaries.
+
+Retain the original daily/hourly records and units.
+
+NASA POWER information must be labelled as provider-derived meteorological/solar data, not as measurements from a weather station located on the farmer's property.
+
+## 7.4 Landsat 8 and Landsat 9
+
+Official sources:
+
+https://www.usgs.gov/landsat-missions/landsat-collection-2
+
+https://www.usgs.gov/landsat-missions/landsat-data-access
+
+Use Landsat 8/9 Collection 2 imagery, prioritising appropriate Level-2 surface-reflectance products where available.
+
+Use official USGS/NASA data access and cataloguing mechanisms, such as supported STAC or Earthdata catalogue services.
+
+Retrieve:
+
+- Acquisition date.
+- Satellite identifier.
+- Scene identifier.
+- Product identifier and collection.
+- Cloud-cover metadata.
+- Surface-reflectance bands.
+- Quality-assurance bands.
+- Product publication/processing date.
+
+Implement actual raster processing.
+
+Calculate NDVI using the scientifically appropriate red and near-infrared reflectance bands:
+
+NDVI = (NIR - RED) / (NIR + RED)
+
+Requirements:
+
+- Apply product scale factors and offsets where specified.
+- Mask cloud, cloud-shadow and invalid pixels.
+- Respect QA_PIXEL and relevant QA/saturation flags.
+- Handle missing and saturated pixels.
+- Compute meaningful field statistics over valid pixels.
+- Preserve valid-pixel proportion and cloud-related quality information.
+- Display the original acquisition date.
+- Retain the source product reference.
+
+Do not confuse Landsat NDVI with direct soil-health measurement, nutrient measurement or crop diagnosis.
+
+Do not extrapolate a current NDVI observation from an old image and describe it as live.
+
+If there is no suitable recent cloud-free scene, clearly report that no suitable recent observation is available.
+
+## 7.5 Optional NASA visualisation layer
+
+Use NASA GIBS or another official, documented NASA visualisation service for map layers where suitable.
+
+Visual map tiles may help users explore Earth observations.
+
+Do not use rendered visual tiles as a substitute for scientifically valid numerical raster processing.
+
+## 7.6 NASA data orchestration
+
+Create a unified provider abstraction.
+
+Suggested structure:
+
+```text
+backend/
+  integrations/
+    nasa/
+      base.py
+      earthdata_auth.py
+      earthdata_cmr.py
+      gpm_imerg.py
+      smap_l4.py
+      nasa_power.py
+      landsat.py
+      gibs.py
+      provider_registry.py
+      health.py
+  geospatial/
+    raster_reader.py
+    coordinate_transform.py
+    field_extraction.py
+    cloud_masking.py
+    aggregation.py
+    quality_validation.py
+```
+
+Implement:
+
+- Request timeouts.
+- Retries with exponential backoff.
+- Rate-limit handling.
+- Structured logs.
+- Duplicate download prevention.
+- Idempotent ingestion.
+- Metadata validation.
+- Error classification.
+- Provider health checks.
+- Caching.
+- Background processing.
+- Data freshness calculation.
+- Manual re-fetch.
+- Scheduled re-fetch.
+
+Do not make every page load initiate expensive Earthdata downloads.
+
+Use on-demand initial retrieval and controlled scheduled refreshes.
+
+For large files, use a storage-backed processing workflow.
+
+Store raw source references and processed data metadata so observations can be audited.
+
+## 7.7 Real-time and data-freshness interface
+
+The interface must never describe all NASA datasets as real-time.
+
+For each observation, maintain:
+
+- Observation start and end.
+- Source publication/availability time where supplied.
+- Retrieval time.
+- Processing completion time.
+- Product/version.
+- Native spatial resolution.
+- Units.
+- Quality flags.
+- Data age.
+- Provider status.
+
+Show understandable statuses:
+
+- Latest available.
+- Near real-time.
+- Recently updated.
+- Delayed source.
+- Cached observation.
+- Stale observation.
+- No suitable observation.
+- Provider unavailable.
+
+The exact status must come from the actual timestamps and provider-health information.
+
+Provide a data-source detail panel when a user clicks an environmental metric.
+
+**KhetPatch's promise is trustworthy and timely environmental context, not fictional live telemetry.**
+
+## 7.8 Data-processing accuracy
+
+A field may be much smaller than an underlying satellite data cell.
+
+Therefore:
+
+- Preserve native source resolution.
+- Intersect the field boundary with source-grid geometry.
+- Use suitable extraction or aggregation methods.
+- Record the number of contributing pixels/cells.
+- Record missing-pixel percentages.
+- Preserve uncertainty and quality metadata when supplied.
+- Avoid precision claims resulting from resampling.
+- Explain when a product is too coarse for meaningful field-level differentiation.
+
+---
+
+# 8. FARM LOCATION AND GEOSPATIAL FUNCTIONALITY
+
+Farm management is central to the entire application.
+
+Implement real multi-farm and multi-field functionality.
+
+## Farm registration
+
+Capture:
+
+- Farm name.
+- Farmer ownership.
+- Village.
+- Taluka.
+- District.
+- State.
+- Country.
+- Farm location.
+- Farm area.
+- Farming system.
+- Optional irrigation details.
+- Optional water availability.
+- Farmer-provided information.
+
+## Field registration
+
+Each farm must support multiple fields.
+
+Each field should store:
+
+- Field name and identifier.
+- Farm association.
+- Geometry/polygon.
+- Area.
+- Crop history.
+- Previous crop.
+- Current crop.
+- Planting date.
+- Harvest date.
+- Irrigation and water availability, if supplied.
+- Soil-test information, if supplied.
+- Field notes.
+- Observation and activity history.
+
+## Location capture
+
+Support:
+
+1. Device geolocation after explicit user consent.
+2. Manual map pin.
+3. Search for village or locality.
+4. Manual coordinate entry.
+
+Keep device location distinct from farm location.
+
+Ask users to confirm that a captured location actually represents the farm before saving it.
+
+Use PostGIS for spatial operations.
+
+Use appropriate coordinate reference systems and preserve the source coordinate metadata.
+
+Implement polygon drawing and editing.
+
+---
+
+# 9. AUTHENTICATION AND FIVE ROLE-SPECIFIC WORKSPACES
+
+Implement real authentication and trusted role resolution.
+
+There are five application roles:
+
+1. FARMER.
+2. AGRONOMIST.
+3. FPO_MANAGER.
+4. ORGANIZATION_ADMIN.
+5. PLATFORM_ADMIN.
+
+Each role must have its own functional workspace and layout.
+
+## 9.1 Required routing
+
+```text
+FARMER             -> /farmer/home
+AGRONOMIST         -> /workspace/dashboard
+FPO_MANAGER        -> /organization/overview
+ORGANIZATION_ADMIN -> /organization/admin
+PLATFORM_ADMIN     -> /platform/admin
+```
+
+Use separate layouts:
+
+- FarmerLayout.
+- EnterpriseLayout.
+- OrganizationLayout.
+- OrganizationAdminLayout.
+- PlatformAdminLayout.
+
+Each layout must have a suitable navigation system, dashboard structure, role identity and page permissions.
+
+## 9.2 Authentication architecture
+
+Implement:
+
+```text
+Authentication Provider
+        ↓
+Verified User Session
+        ↓
+Canonical User Profile
+        ↓
+Trusted Role Resolution
+        ↓
+Organization Membership Validation
+        ↓
+Requested Workspace Validation
+        ↓
+Onboarding Resolution
+        ↓
+Workspace Resolution
+        ↓
+Role-Specific Application
+```
+
+Build a central server-side resolver similar to:
+
+```python
+resolve_user_workspace(
+    authenticated_user_id,
+    requested_role,
+    requested_organization_id
+)
+```
+
+It must verify actual permissions from trusted server/database records.
+
+Never treat a role selected in the browser as proof of authorization.
+
+## 9.3 Required demo authentication mode
+
+For the project demonstration, support one shared demo authentication identity with one email and one password.
+
+The same authenticated identity must have all five authorised demo role assignments.
+
+On login:
+
+- User enters the same demo email and password.
+- User selects one of the five available workspace cards.
+- Backend validates that the identity actually has the requested role.
+- Correct workspace opens.
+- Workspace switching is possible without creating separate authenticated identities.
+
+Use the same identity ID and five explicit role-assignment records.
+
+Do not create five separate demo user accounts.
+
+Implement this using a dedicated demo provisioning script and trusted database records.
+
+Use environment variables:
+
+```env
+APP_ENV=development
+DEMO_AUTH_ENABLED=true
+
+DEMO_ACCOUNT_EMAIL=
+DEMO_ACCOUNT_PASSWORD=
+
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+DATABASE_URL=
+```
+
+Provisioning must be idempotent.
+
+The service-role credential may be used only by server-side provisioning code and must never be exposed to the browser.
+
+Do not hardcode a demo password.
+
+**Critical:** demo authentication must fail closed in production. It must never grant all five roles to ordinary public signups.
+
+For normal registrations:
+
+- Public users receive the Farmer role by default.
+- Higher privileges require trusted invitation or administrator approval.
+- Role changes are recorded in audit logs.
+
+## 9.4 Authentication functionality
+
+Implement:
+
+- Signup.
+- Login.
+- Email verification.
+- Password reset.
+- Session persistence.
+- Secure token refresh.
+- Logout.
+- Protected routes.
+- Role selection.
+- Workspace switching.
+- Account profile.
+- Organization membership.
+- Invitation workflow.
+- Account status.
+- Permission checks.
+
+Handle incomplete profiles, pending email verification, missing permissions and expired sessions properly.
+
+---
+
+# 10. FARMER WORKSPACE
+
+The farmer interface must be simple, intuitive, mobile-first and field-oriented.
+
+A farmer should not need to understand complex geospatial terminology to use it.
+
+Use clear icons, local terminology, readable text, guided forms and visible next actions.
+
+## Farmer dashboard
+
+Show:
+
+- Greeting.
+- Selected farm and field.
+- Current crop.
+- Previous crop.
+- Current season.
+- Latest available environmental observations.
+- Three crop-rotation strategy cards.
+- Upcoming activities.
+- Pending tasks.
+- Important notifications.
+- Recent farm timeline.
+- AI farm assistant.
+
+Do not fill the dashboard with invented numbers or fictional alerts.
+
+## My Farms
+
+- View farms.
+- Create farms.
+- Edit farms.
+- Archive farms.
+- View farm locations.
+- View fields within a farm.
+- Switch farms.
+- View summaries.
+
+## Fields
+
+- Create field.
+- Draw or edit field boundary.
+- Store area.
+- Record current crop.
+- Record previous crops.
+- Store planting and harvesting dates.
+- Store optional field soil information.
+- Store field activities.
+- View environmental observations.
+
+## Crop history
+
+Maintain a chronological history of:
+
+- Crops planted.
+- Planting dates.
+- Crop families.
+- Harvest dates.
+- Previous rotations.
+- Fertilizer and irrigation notes when supplied.
+- Known pest/disease incidents when supplied.
+- Farmer feedback.
+
+## Crop Rotation Planner
+
+This is the primary product feature.
+
+Allow a farmer to:
+
+1. Select a farm.
+2. Select a field.
+3. Verify current crop.
+4. Confirm previous crop history.
+5. Select a planning season.
+6. Add farming priorities.
+7. Confirm water and soil information.
+8. Retrieve available NASA environmental observations.
+9. Generate feasible rotation options.
+10. Compare the three strategies.
+11. View trade-offs and evidence.
+12. Save or submit a preferred plan.
+13. Request expert review where available.
+
+Every strategy should show:
+
+- Proposed crop sequence.
+- Crop family.
+- Proposed sowing window.
+- Expected duration where validated.
+- Water considerations.
+- Soil considerations.
+- Rotation rationale.
+- Relevant historical field context.
+- Environmental evidence.
+- Feasibility constraints.
+- Risks and uncertainty.
+- Missing information.
+- Expert-review status.
+
+Allow a farmer to accept, reject or request changes to a proposal.
+
+Never silently overwrite an approved plan.
+
+## Tasks and follow-ups
+
+Support:
+
+- Create task.
+- Assign task.
+- Due date.
+- Priority.
+- Completion status.
+- Postponement.
+- Farmer notes.
+- Reminder.
+- Recurring follow-up when appropriate.
+- Link to farm, field and plan.
+
+Tasks should be connected to the field timeline.
+
+## AI Farm Assistant
+
+Allow field-specific questions such as:
+
+- What crop did I grow previously?
+- Which rotation plans are available?
+- What environmental information is available for this field?
+- What tasks are due?
+- Why was this crop sequence suggested?
+- What information is missing?
+- What did I decide last time?
+
+Retrieve the real saved context.
+
+Do not ask farmers to repeat information that is already available and authorised.
+
+Make the assistant distinguish data facts, model-generated explanations and expert-reviewed advice.
+
+---
+
+# 11. AGRONOMIST WORKSPACE
+
+Create a professional enterprise interface.
+
+## Dashboard
+
+- Farmers under advisory.
+- Farms and fields.
+- Rotation plans requiring review.
+- Pending expert approvals.
+- Environmental data availability.
+- Follow-up status.
+- Field-risk flags where actually supported.
+- Recent activity.
+- Data-source health summary.
+
+## Farmer management
+
+- Search and filter farmers.
+- Open farmer profile.
+- View authorised farm records.
+- View fields.
+- Review crop history.
+- Add agronomic observations.
+- Assign follow-ups.
+
+## Farm and field management
+
+- Map-based field viewer.
+- Crop history.
+- Available soil tests.
+- NASA observations.
+- Environmental trends.
+- Field notes.
+- Activity history.
+
+## Crop knowledge and rules
+
+- Crop catalogue.
+- Crop families.
+- Season suitability.
+- Crop duration.
+- Water requirements.
+- Soil compatibility.
+- Known rotation constraints.
+- Pest/disease break rules.
+- Local agronomic references.
+- Rule versioning.
+
+All agricultural rules need an identifiable source or expert-created record.
+
+## Expert reviews
+
+- View pending strategy recommendations.
+- Inspect input records.
+- Inspect underlying environmental evidence.
+- Approve.
+- Reject.
+- Request additional data.
+- Modify a proposal with a reason.
+- Record expert notes.
+- Maintain an auditable review history.
+
+## Reports
+
+Generate useful PDF/CSV reports for permitted data:
+
+- Farmer field summaries.
+- Rotation comparisons.
+- Seasonal reviews.
+- Task completion.
+- Environmental observations.
+- Expert approvals.
+
+---
+
+# 12. FPO MANAGER WORKSPACE
+
+The FPO Manager should be able to manage an authorised agricultural organisation.
+
+Implement:
+
+- Organisation overview.
+- Member management.
+- Farmer records.
+- Farm and field register.
+- Member invitations.
+- Crop activities.
+- Rotation plans.
+- Follow-up monitoring.
+- Aggregate reports.
+- Organisation settings.
+
+Provide aggregated analytics with appropriate privacy controls.
+
+Do not expose a farmer's private data to unauthorised organisation members.
+
+---
+
+# 13. ORGANIZATION ADMIN WORKSPACE
+
+Implement:
+
+- Organisation dashboard.
+- User management.
+- Invitations.
+- Membership management.
+- Role assignment within permitted scope.
+- Permission management.
+- Organisation configuration.
+- Access review.
+- Audit history.
+- Account suspension/reactivation where authorised.
+
+An organisation administrator must not automatically become a platform administrator.
+
+---
+
+# 14. PLATFORM ADMIN WORKSPACE
+
+Implement an operational control centre.
+
+Show:
+
+- Platform health.
+- Application services.
+- Organisation count.
+- Registered accounts.
+- Provider connectivity.
+- NASA ingestion status.
+- Recent ingestion runs.
+- Failed jobs.
+- Processing errors.
+- Database health.
+- Authentication health.
+- Audit events.
+- System configuration.
+
+Platform administration must not automatically provide unrestricted access to individual farmer records.
+
+Sensitive data access must be permissioned and audited.
+
+---
+
+# 15. CROP-ROTATION DECISION ENGINE
+
+This is the agricultural intelligence core.
+
+Implement a deterministic, testable decision engine in Python.
+
+Use OR-Tools CP-SAT or a well-structured constraint solver.
+
+Do not delegate the core crop-feasibility calculation to an LLM.
+
+## 15.1 Input information
+
+Use verified and available information about:
+
+- Region.
+- Field geometry.
+- Soil characteristics.
+- Soil-test results.
+- Current crop.
+- Historical crop sequence.
+- Crop family.
+- Sowing season.
+- Planting window.
+- Crop duration.
+- Water availability.
+- Irrigation capability.
+- Known pest and disease constraints.
+- Nutrient-management information.
+- Crop priorities.
+- Farmer preferences.
+- Market or resource constraints when supplied.
+- Environmental observations.
+
+Track missing input explicitly.
+
+## 15.2 Hard constraints
+
+Where supported by validated agricultural rules, evaluate:
+
+- Planting-window feasibility.
+- Crop duration.
+- Crop-season compatibility.
+- Known family-rotation intervals.
+- Known pest/disease breaks.
+- Crop suitability for available soil information.
+- Water constraints.
+- Existing crop commitments.
+- Farmer-declared practical constraints.
+
+A crop that fails a hard constraint must not receive a high recommendation score.
+
+## 15.3 Soft objectives
+
+Where reliable inputs exist, evaluate:
+
+- Crop diversity.
+- Nutrient cycling.
+- Soil-cover considerations.
+- Water demand.
+- Root diversity.
+- Seasonal feasibility.
+- Practicality.
+- Farmer preferences.
+- Climate-related considerations.
+
+Keep the objectives transparent.
+
+Do not invent exact soil-health improvement percentages, water savings, yield improvements or carbon-sequestration claims.
+
+## 15.4 Generate the three strategies
+
+Existing Rotation:
+
+- Evaluate the current sequence.
+- Explain current strengths and limitations.
+- Identify missing information.
+
+Minimal Change Rotation:
+
+- Find the closest feasible modification.
+- Preserve as much existing practice as reasonable.
+- Explain the changes and why they matter.
+
+Alternative Rotation:
+
+- Find another feasible sequence.
+- Explain differences and trade-offs.
+
+If the solver finds no valid alternative, state that honestly.
+
+## 15.5 Explainability
+
+Every recommendation must contain:
+
+- Inputs used.
+- Input source.
+- Rules used.
+- Algorithm/rule-set version.
+- Feasibility result.
+- Main trade-offs.
+- Evidence references.
+- Uncertainty.
+- Missing information.
+- Date generated.
+
+Recommendations must be reproducible from their stored inputs and configuration.
+
+## 15.6 Expert validation
+
+Allow an authorised agronomist to review recommendations.
+
+Track:
+
+- Pending review.
+- Approved.
+- Rejected.
+- Modified.
+- Needs more information.
+
+A farmer must be able to distinguish system-generated guidance from expert-approved guidance.
+
+---
+
+# 16. PERSISTENT FIELD MEMORY
+
+This is a major KhetPatch differentiator.
+
+Build a persistent memory layer per farmer, farm and field.
+
+The memory must record:
+
+- Farm identity.
+- Field identity.
+- Previous crops.
+- Current crop.
+- Planting and harvest history.
+- Farmer preferences.
+- Accepted strategies.
+- Rejected strategies.
+- Approved plans.
+- Completed activities.
+- Pending tasks.
+- Postponed activities.
+- Expert feedback.
+- Previous AI explanations.
+- Important field notes.
+
+When the user asks a question, retrieve authorised relevant records before generating an answer.
+
+The system must distinguish:
+
+1. Facts recorded by the farmer.
+2. Measurements from data providers.
+3. Calculated environmental indicators.
+4. Model-generated summaries.
+5. Expert-validated agricultural knowledge.
+
+Do not merge these into one indistinguishable source of truth.
+
+When new observations arrive, make relevant plans eligible for reassessment, but never overwrite an approved plan without an explicit action.
+
+---
+
+# 17. AI FARM ASSISTANT AND KNOWLEDGE RETRIEVAL
+
+Implement a real server-side AI integration.
+
+Use retrieval-augmented generation over:
+
+- Farmer-authorised farm records.
+- Field histories.
+- NASA observation metadata and values.
+- Verified crop catalogue.
+- Approved agronomic rules.
+- Expert notes.
+- Official research references.
+- Product documentation.
+
+The assistant must retrieve the actual information required for the specific question.
+
+Every factual answer concerning the farm must use the authenticated user's authorised records.
+
+Every NASA-derived statement must link to its observation metadata.
+
+Every agronomic explanation must identify the underlying rule, reference or uncertainty.
+
+Do not invent citations.
+
+Do not assume an LLM response is a validated agricultural recommendation.
+
+Protect against prompt injection in retrieved documents and user-supplied content.
+
+If the model provider is unavailable, provide a useful fallback:
+
+- Saved farm data retrieval.
+- Search.
+- Deterministic answers.
+- Plan explanations from structured records.
+
+Clearly label that the generative assistant is unavailable rather than claiming it is functioning.
+
+---
+
+# 18. NOTIFICATIONS, TASKS AND FOLLOW-UP ENGINE
+
+Implement a unified event and notification system.
+
+Possible triggers:
+
+- Task due.
+- Task overdue.
+- Follow-up due.
+- Expert review completed.
+- Plan approved.
+- New valid observation available.
+- Provider ingestion failed.
+- Field record updated.
+- Seasonal review required.
+
+Do not generate misleading alerts from unsupported thresholds.
+
+Support:
+
+- In-app notifications.
+- Read/unread state.
+- Priority.
+- User preferences.
+- Due dates.
+- Dismissal.
+- Notification history.
+
+Email and messaging integrations may be added through properly configured providers, but do not claim an external notification was sent unless the provider confirms success.
+
+---
+
+# 19. DATABASE SCHEMA
+
+Design a normalized PostgreSQL schema with PostGIS.
+
+At minimum, include:
+
+```text
+profiles
+organizations
+organization_memberships
+user_roles
+user_invitations
+farmer_profiles
+
+farms
+fields
+farm_seasons
+crop_catalogue
+crop_families
+crop_history
+soil_tests
+water_sources
+farm_priorities
+field_notes
+
+data_sources
+data_collections
+data_ingestion_runs
+environmental_observations
+geospatial_assets
+environmental_quality_records
+provider_health
+
+agronomic_references
+agronomic_rules
+rotation_constraints
+rotation_plans
+rotation_options
+rotation_plan_inputs
+rotation_plan_evidence
+expert_reviews
+
+field_activities
+tasks
+follow_ups
+timeline_events
+notifications
+
+conversation_threads
+conversation_messages
+conversation_sources
+
+audit_logs
+system_settings
+```
+
+Important database requirements:
+
+- UUID primary keys.
+- Foreign-key integrity.
+- Created and updated timestamps.
+- Soft deletion where appropriate.
+- Appropriate tenant and ownership relationships.
+- PostGIS geometry columns.
+- GiST spatial indexes.
+- Useful time-series indexes.
+- Database constraints.
+- Migration versioning.
+- Secure row-level security.
+
+Environmental observations should retain the provider product, version, variable, units, source timestamp, observation interval, retrieval timestamp, spatial resolution, quality information and processing provenance.
+
+Do not store all observations as unstructured JSON when a structured schema is appropriate.
+
+---
+
+# 20. API DESIGN
+
+Create versioned FastAPI endpoints.
+
+Suggested API families:
+
+```text
+/api/v1/auth
+/api/v1/users
+/api/v1/organizations
+/api/v1/farms
+/api/v1/fields
+/api/v1/crops
+/api/v1/crop-history
+/api/v1/environment
+/api/v1/nasa/providers
+/api/v1/nasa/ingestion
+/api/v1/rotation
+/api/v1/recommendations
+/api/v1/expert-reviews
+/api/v1/activities
+/api/v1/tasks
+/api/v1/follow-ups
+/api/v1/notifications
+/api/v1/assistant
+/api/v1/reports
+/api/v1/audit
+/api/v1/admin
+/api/v1/health
+```
+
+Add:
+
+- Pagination.
+- Filtering.
+- Sorting.
+- Consistent error responses.
+- Input validation.
+- Permission enforcement.
+- OpenAPI documentation.
+- Request correlation IDs.
+- Rate limiting where suitable.
+
+Do not allow a frontend user to access another farmer's field merely by changing an ID in a URL.
+
+---
+
+# 21. MAPS AND ENVIRONMENTAL VISUALISATION
+
+Create a real interactive field and environmental-data interface.
+
+Map features:
+
+- Farm location.
+- Field boundaries.
+- Field selection.
+- Environmental layers when available.
+- NASA visualisation layers.
+- Observation location/context.
+- Relevant data-source metadata.
+
+Allow switching between:
+
+- Satellite basemap.
+- Street/terrain basemap where available.
+- Field-boundary view.
+- Environmental overlays.
+
+Display field statistics only when actual data processing has produced them.
+
+Charts:
+
+- Rainfall over time.
+- Soil-moisture history.
+- Temperature trends.
+- Vegetation index history.
+- Seasonal comparisons.
+
+Every chart should be sourced from actual persisted data and show its units and date range.
+
+Never generate charts with random values to make an empty dashboard look active.
+
+---
+
+# 22. MULTI-LANGUAGE AND FARMER ACCESSIBILITY
+
+Design the application so it can support:
+
+- English.
+- Hindi.
+- Marathi.
+
+Implement language-ready translations rather than scattering visible English strings throughout components.
+
+Use:
+
+- Large touch targets.
+- Clear labels.
+- Simple forms.
+- Guided steps.
+- High contrast.
+- Readable typography.
+- Accessible icons.
+- Keyboard navigation.
+- Screen-reader labels.
+- Clear form errors.
+- Responsive layouts.
+
+Create an architecture for regional-language voice input and text-to-speech where an actual provider is configured.
+
+Support offline-friendly access to previously saved farm records and approved plans where feasible.
+
+Do not claim complete offline functionality if server-side features still require connectivity.
+
+---
+
+# 23. SECURITY AND DATA PRIVACY
+
+Implement security from the beginning.
+
+Requirements:
+
+- Verify authentication tokens server-side.
+- Resolve roles from trusted database records.
+- Apply row-level security.
+- Enforce organisation and farm ownership.
+- Validate all incoming data.
+- Use secure server-side secret storage.
+- Use HTTP-only secure cookies where appropriate.
+- Protect against CSRF where applicable.
+- Apply rate limiting.
+- Validate uploaded files.
+- Restrict file size and file type.
+- Record privileged administrative actions.
+- Avoid excessive personal data collection.
+- Protect farm boundaries and precise locations.
+- Provide safe session expiry and logout.
+
+Supabase security requirements:
+
+- Enable RLS on all exposed sensitive tables.
+- Write explicit SELECT, INSERT, UPDATE and DELETE policies.
+- Verify both USING and WITH CHECK conditions where required.
+- Do not rely on hidden frontend menu items.
+- Do not trust user-editable metadata for privileged roles.
+- Do not expose the service-role key.
+- Test tenant isolation.
+- Avoid security-definer functions that bypass intended access controls.
+
+Create database tests for actual access permissions.
+
+---
+
+# 24. SYSTEM OPERATIONS AND DATA PIPELINES
+
+Implement reliable background processing.
+
+A background worker should handle:
+
+- NASA data ingestion.
+- Raster processing.
+- Data aggregation.
+- Provider-health checks.
+- Scheduled refreshes.
+- Retryable failed jobs.
+- Follow-up generation.
+- Report generation.
+
+Background jobs must be idempotent.
+
+A single provider outage must not crash the entire platform.
+
+Persist job status:
+
+- Queued.
+- Running.
+- Completed.
+- Partially completed.
+- Failed.
+- Retrying.
+
+Record:
+
+- Started time.
+- Completed time.
+- Provider.
+- Product.
+- Error details.
+- Records processed.
+- Retry count.
+
+Use a database-backed job mechanism or a suitable persistent job queue. Do not rely solely on a fragile in-memory background task that disappears after a restart.
+
+Create an administrative screen for job monitoring.
+
+---
+
+# 25. DEMONSTRATION DATA
+
+The application may require a small initial dataset for judging.
+
+Use clearly labelled synthetic demonstration records.
+
+Create sample data for:
+
+- One demo organisation.
+- One shared demo identity.
+- Five role assignments.
+- A few sample farmers.
+- Multiple example farms and fields.
+- Example crop histories.
+- Example tasks.
+- Example rotation plans.
+
+Synthetic records must contain an explicit demo flag and be isolated from real user information.
+
+For environmental dashboards:
+
+- Prefer actual NASA observations for a valid configured location.
+- Never fabricate satellite measurements.
+- If an external source is not configured, display the genuine integration status and an explanatory unavailable state.
+- Clearly distinguish synthetic agricultural records from actual provider observations.
+
+A beautiful, honest empty state is preferable to false environmental data.
+
+---
+
+# 26. ENVIRONMENT CONFIGURATION
+
+Create a complete `.env.example`.
+
+Include variables equivalent to:
+
+```env
+APP_ENV=development
+APP_NAME=KhetPatch
+APP_URL=
+
+NEXT_PUBLIC_APP_URL=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+DATABASE_URL=
+
+EARTHDATA_TOKEN=
+
+NASA_POWER_BASE_URL=https://power.larc.nasa.gov/api
+
+OPENAI_API_KEY=
+OPENAI_MODEL=
+
+DEMO_AUTH_ENABLED=true
+DEMO_ACCOUNT_EMAIL=
+DEMO_ACCOUNT_PASSWORD=
+
+CRON_SECRET=
+```
+
+Include optional map, logging and monitoring provider variables as necessary.
+
+Use Replit Secrets or an equivalent server-side secret manager.
+
+Do not commit real values.
+
+The application should validate configuration during startup and return a clear configuration report.
+
+Missing optional integrations should not prevent unrelated application features from working.
+
+Production must disable demo authentication.
+
+Do not expose any private variable through a `NEXT_PUBLIC_` prefix.
+
+---
+
+# 27. TESTING AND QUALITY ASSURANCE
+
+Testing is mandatory.
+
+Do not declare the application complete because it builds or renders a login page.
+
+## Frontend tests
+
+Use appropriate tools such as:
+
+- Vitest.
+- React Testing Library.
+- Playwright.
+
+Test:
+
+- Navigation.
+- Responsive layout.
+- Forms.
+- Validation.
+- Login.
+- Role selection.
+- Workspace switching.
+- Farm creation.
+- Field creation.
+- Crop-history entry.
+- Rotation comparison.
+- Task creation.
+- Follow-up completion.
+- Notifications.
+
+## Backend tests
+
+Use Pytest.
+
+Test:
+
+- Authentication.
+- Role resolution.
+- API permissions.
+- Farm and field CRUD.
+- PostGIS geometry.
+- Environmental data ingestion.
+- NASA adapter parsing.
+- Unit conversion.
+- Quality-flag handling.
+- Crop-rotation feasibility.
+- Strategy generation.
+- Recommendation versioning.
+- Task and follow-up workflows.
+- Audit logging.
+
+## NASA integration tests
+
+Create real integration tests for the configured provider connectors.
+
+Test:
+
+- Provider availability.
+- Metadata discovery.
+- Actual request execution.
+- Authentication.
+- Response parsing.
+- Raster handling.
+- Missing values.
+- Quality flags.
+- Units.
+- Time conversion.
+- Storage.
+- Field association.
+
+Keep unit tests independent of external availability by using controlled fixtures.
+
+Also provide live integration smoke tests that execute when valid NASA access configuration is present.
+
+Never report a live integration test as passed based on a mock response.
+
+## Database security tests
+
+Verify:
+
+- A farmer cannot access another farmer's private records.
+- An organisation member cannot access another organisation's restricted records.
+- An agronomist can access only authorised assignments.
+- Organisation admins cannot become platform admins.
+- Platform administration is audited.
+- Role changes are checked server-side.
+- The demo account's five roles are isolated to the demo environment.
+
+## End-to-end role tests
+
+Execute a realistic workflow for all five roles.
+
+**Farmer:**
+
+Login → Create farm → Create field → Enter crop history → Retrieve environmental data → Generate rotation strategies → Compare → Save plan → Create task → Complete activity → View timeline.
+
+**Agronomist:**
+
+Login → Open authorised farmer → Inspect field → Review environmental evidence → Inspect alternatives → Approve or reject plan → Record expert notes.
+
+**FPO Manager:**
+
+Login → Open organisation → View authorised members → Inspect farm summaries → Review activity and follow-up status → Export permitted report.
+
+**Organization Admin:**
+
+Login → Invite user → Assign permitted role → Review memberships → Inspect audit history.
+
+**Platform Admin:**
+
+Login → Inspect provider status → Inspect ingestion jobs → Review operational events → Inspect platform health.
+
+Fix all critical test failures before considering the project ready.
+
+---
+
+# 28. ERROR HANDLING AND RECOVERY
+
+Create a consistent error system.
+
+Handle:
+
+- API timeouts.
+- NASA rate limits.
+- Missing Earthdata credentials.
+- Expired Earthdata tokens.
+- Empty data responses.
+- Invalid granules.
+- Unavailable products.
+- Cloud-covered scenes.
+- Invalid field polygons.
+- Database connectivity loss.
+- Expired user sessions.
+- Unauthorized requests.
+- Background-job failures.
+- LLM unavailability.
+
+Provide understandable user-facing messages and detailed secure server-side logs.
+
+A failed NASA data request must never silently fall back to fictional data.
+
+Use cached last-valid observations only when the UI identifies them as cached and displays their original timestamp.
+
+---
+
+# 29. DEPLOYMENT AND PROJECT STRUCTURE
+
+Use a maintainable monorepo structure similar to:
+
+```text
+khetpatch/
+│
+├── apps/
+│   ├── web/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── features/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   └── styles/
+│   │
+│   └── api/
+│       ├── app/
+│       │   ├── api/
+│       │   ├── auth/
+│       │   ├── core/
+│       │   ├── database/
+│       │   ├── models/
+│       │   ├── schemas/
+│       │   ├── services/
+│       │   ├── integrations/
+│       │   ├── geospatial/
+│       │   ├── intelligence/
+│       │   └── workers/
+│       └── tests/
+│
+├── supabase/
+│   ├── migrations/
+│   ├── seeds/
+│   └── policies/
+│
+├── scripts/
+│   ├── provision_demo_user.py
+│   ├── seed_demo_data.py
+│   └── health_check.py
+│
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── NASA_DATA_SOURCES.md
+│   ├── AUTHENTICATION.md
+│   ├── SECURITY.md
+│   └── DEPLOYMENT.md
+│
+├── tests/
+├── .env.example
+├── README.md
+└── package configuration and lockfiles
+```
+
+Adapt this structure if the existing repository or runtime needs a more suitable arrangement.
+
+Provide:
+
+- Development startup commands.
+- Database migration commands.
+- Demo-account provisioning instructions.
+- Worker startup instructions.
+- Test commands.
+- Deployment instructions.
+- Production environment configuration.
+
+Use Replit deployment for the app where appropriate and Supabase as the managed database/authentication service.
+
+Run the web service and background worker using a configuration suitable for their separate lifecycles.
+
+Do not claim that deployment is successful until you have confirmed the deployed application is reachable and its critical health checks pass.
+
+---
+
+# 30. REQUIRED DELIVERY PHASES
+
+Execute in the following order.
+
+## Phase 1 — Repository and infrastructure audit
+
+- Inspect the existing project.
+- Identify current working functionality.
+- Inspect dependencies and environment variables.
+- Identify incomplete modules.
+- Establish the final architecture.
+- Record blockers.
+
+Then start implementing.
+
+## Phase 2 — Foundation
+
+- Project structure.
+- Database connection.
+- Migrations.
+- Supabase authentication.
+- Trusted role resolution.
+- Demo provisioning.
+- Protected routes.
+- Common UI system.
+
+## Phase 3 — Public website
+
+Implement the attached reference design.
+
+Finish the homepage first, including responsive layout and actual dynamic environmental metric components.
+
+Then build the remaining public pages.
+
+## Phase 4 — Role-based application
+
+Build all five independent workspaces.
+
+Implement actual navigation, permissions and persistent records.
+
+## Phase 5 — Farm and field management
+
+Implement the complete farm registration, geolocation, field geometry, crop-history and farm-memory workflows.
+
+## Phase 6 — NASA data pipeline
+
+Implement each provider connector separately.
+
+Validate the NASA response, process the actual data and store observations.
+
+Connect the observations to the correct farms and fields.
+
+Add the provider-health interface.
+
+## Phase 7 — Agricultural decision engine
+
+Implement crop knowledge, validated constraints, feasibility calculations and three strategy categories.
+
+Add evidence and explainability.
+
+## Phase 8 — AI assistant and continuous farm operations
+
+Implement context retrieval, assistant interactions, tasks, notifications, follow-ups and timelines.
+
+## Phase 9 — Expert and organisational workflows
+
+Implement reviews, organisation management, reporting and administrative controls.
+
+## Phase 10 — QA, security and deployment
+
+Run builds and tests, repair failures, verify access control, execute live NASA connector checks where credentials exist, and verify deployment.
+
+Do not skip later phases just because early phases are visually complete.
+
+---
+
+# 31. DEFINITION OF DONE
+
+KhetPatch is not finished until the following conditions are satisfied.
+
+### Product
+
+- [ ] Reference-inspired landing page implemented.
+- [ ] All main public navigation links work.
+- [ ] Responsive desktop and mobile design.
+- [ ] Five independent role-based workspaces.
+- [ ] Real login, session and role resolution.
+- [ ] Demo shared identity supports all five assigned workspace roles.
+- [ ] Normal signup does not grant elevated privileges.
+- [ ] Farm and field records persist.
+- [ ] Multiple farms and fields supported.
+- [ ] Field geometry and location management work.
+- [ ] Crop history persists.
+- [ ] Three strategy categories implemented.
+- [ ] Agricultural constraints evaluated.
+- [ ] Plans can be saved and reviewed.
+- [ ] Expert review works.
+- [ ] Tasks and follow-ups work.
+- [ ] Field timeline works.
+- [ ] AI assistant retrieves actual authorised records.
+
+### NASA and geospatial
+
+- [ ] GPM IMERG connector implemented.
+- [ ] SMAP L4 connector implemented.
+- [ ] NASA POWER connector implemented.
+- [ ] Landsat 8/9 connector implemented.
+- [ ] Actual NASA/provider requests executed when configured.
+- [ ] Correct data units and timestamps retained.
+- [ ] Data quality is checked.
+- [ ] Data resolution is disclosed.
+- [ ] Field-level extraction works.
+- [ ] Environmental values persist.
+- [ ] Dashboard metrics retrieve persisted provider observations.
+- [ ] Provider health is visible.
+- [ ] Delayed and unavailable data are handled honestly.
+- [ ] No fabricated live metrics.
+
+### Security and infrastructure
+
+- [ ] RLS implemented.
+- [ ] Tenant isolation tested.
+- [ ] Role permissions enforced server-side.
+- [ ] Secrets secured.
+- [ ] Database migrations run.
+- [ ] Demo authentication restricted to demo environment.
+- [ ] Background jobs are persistent and recoverable.
+- [ ] Logging and operational health checks work.
+
+### Quality
+
+- [ ] Frontend build passes.
+- [ ] Backend tests pass.
+- [ ] Critical browser journeys pass.
+- [ ] Five-role workflow tests pass.
+- [ ] Database permission tests pass.
+- [ ] Configured live NASA integrations pass smoke tests.
+- [ ] No unresolved critical errors.
+- [ ] Deployment health verified.
+
+---
+
+# 32. FINAL BUILD REPORT
+
+At the end, produce a truthful, concise implementation report containing:
+
+1. Features implemented.
+2. Pages and workspaces completed.
+3. Database tables and migrations created.
+4. Authentication configuration.
+5. NASA connectors actually tested.
+6. Most recent observations successfully retrieved, with source and timestamps.
+7. Crop-rotation logic implemented and its validation status.
+8. AI integration status.
+9. Tests executed and their results.
+10. Security checks completed.
+11. Deployment URL and verification status.
+12. Missing credentials or external dependencies.
+13. Known limitations.
+14. Exact steps required to resolve remaining blockers.
+
+Separate the results into:
+
+- Fully implemented and tested.
+- Implemented but awaiting external credentials.
+- Implemented but awaiting expert validation.
+- Not yet implemented.
+
+Do not describe planned functionality as finished.
+
+---
+
+# FINAL INSTRUCTION
+
+Build KhetPatch as a unified agricultural intelligence product, not as a collection of disconnected pages.
+
+The central experience must connect actual environmental observations with farm-specific knowledge, transparent crop-rotation evaluation, meaningful agricultural workflows and continuous farmer follow-up.
+
+Use the attached landing-page image as the visual source of truth.
+
+Preserve the product identity and all five role-specific workspaces.
+
+Prioritise real functionality, scientific integrity, security, maintainability and a complete judging-ready demonstration.
+
+**Start by inspecting the existing repository. Then implement the project phase by phase, run it, test it, repair errors and continue until the definition of done is satisfied. Do not stop after generating the plan.**

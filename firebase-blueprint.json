@@ -1,0 +1,455 @@
+{
+  "entities": {
+    "UserPublic": {
+      "title": "UserPublic",
+      "description": "Non-PII public/workspace identity summary for a signed-in KhetPatch user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Authentication UID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name.",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "role": {
+          "type": "string",
+          "description": "Default client workspace role.",
+          "enum": ["FARMER"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when user profile was initialized."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of latest update."
+        }
+      },
+      "required": ["uid", "displayName", "role", "createdAt", "updatedAt"]
+    },
+    "UserPrivate": {
+      "title": "UserPrivate",
+      "description": "Isolated PII record stored in a private subcollection readable and writable strictly by the owner.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Authentication UID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified user email address.",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "phone": {
+          "type": "string",
+          "description": "Optional phone contact.",
+          "maxLength": 30
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "Preferred UI language code.",
+          "enum": ["en", "hi", "mr"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "preferredLanguage", "createdAt", "updatedAt"]
+    },
+    "Farm": {
+      "title": "Farm",
+      "description": "Registered agricultural farm owned by an authenticated user.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "village": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "district": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "agroclimaticZone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "totalAreaAcres": {
+          "type": "number"
+        },
+        "waterAvailability": {
+          "type": "string",
+          "enum": ["Rainfed", "Limited", "Irrigated"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ACTIVE", "ARCHIVED"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "name",
+        "village",
+        "district",
+        "state",
+        "latitude",
+        "longitude",
+        "agroclimaticZone",
+        "totalAreaAcres",
+        "waterAvailability",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Field": {
+      "title": "Field",
+      "description": "Individual field plot nested inside a parent farm.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "farmId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "areaAcres": {
+          "type": "number"
+        },
+        "soilType": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "currentCrop": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "previousCrop": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "waterAvailability": {
+          "type": "string",
+          "enum": ["Rainfed", "Limited", "Irrigated"]
+        },
+        "centroidLat": {
+          "type": "number"
+        },
+        "centroidLon": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "farmId",
+        "ownerId",
+        "name",
+        "areaAcres",
+        "waterAvailability",
+        "centroidLat",
+        "centroidLon",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RotationPlan": {
+      "title": "RotationPlan",
+      "description": "Cloud-synced crop rotation decision snapshot belonging to a farm.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "farmId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fieldId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "planningSeason": {
+          "type": "string",
+          "enum": ["Kharif", "Rabi", "Zaid"]
+        },
+        "selectedStrategyType": {
+          "type": "string",
+          "enum": ["EXISTING", "MINIMAL_CHANGE", "ALTERNATIVE"]
+        },
+        "selectedCrop": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "APPROVED", "COMPLETED", "ARCHIVED"]
+        },
+        "summaryNote": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "farmId",
+        "fieldId",
+        "ownerId",
+        "planningSeason",
+        "selectedStrategyType",
+        "selectedCrop",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "FarmTask": {
+      "title": "FarmTask",
+      "description": "Actionable field follow-up task tied to a farm and field.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "farmId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fieldId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "dueDate": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 32
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["High", "Medium", "Low"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["UPCOMING", "POSTPONED", "COMPLETED"]
+        },
+        "farmerFeedback": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "farmId",
+        "fieldId",
+        "ownerId",
+        "title",
+        "category",
+        "dueDate",
+        "priority",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminMarker": {
+      "title": "AdminMarker",
+      "description": "Server-managed administrator role directory.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "grantedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "grantedAt"]
+    },
+    "ConnectionTest": {
+      "title": "ConnectionTest",
+      "description": "Connectivity health check document.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "maxLength": 32
+        }
+      },
+      "required": ["status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserPublic" },
+      "description": "Public/workspace identity summary without PII."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivate" },
+      "description": "Isolated PII document strictly owned by userId."
+    },
+    "/farms/{farmId}": {
+      "schema": { "$ref": "#/entities/Farm" },
+      "description": "User-owned farm records."
+    },
+    "/farms/{farmId}/fields/{fieldId}": {
+      "schema": { "$ref": "#/entities/Field" },
+      "description": "Field boundaries and soil/crop metadata nested under farms."
+    },
+    "/farms/{farmId}/rotationPlans/{planId}": {
+      "schema": { "$ref": "#/entities/RotationPlan" },
+      "description": "Crop rotation strategy selections nested under farms."
+    },
+    "/farms/{farmId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/FarmTask" },
+      "description": "Actionable crop tasks nested under farms."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminMarker" },
+      "description": "Read-only admin existence check managed outside client SDK."
+    },
+    "/test/{docId}": {
+      "schema": { "$ref": "#/entities/ConnectionTest" },
+      "description": "Authenticated connectivity verification document."
+    }
+  }
+}

@@ -1,0 +1,412 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Reusable Hardened Global Helpers
+    // -------------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isVerifiedUser()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isValidId(id) {
+      return id is string
+        && id.size() >= 1
+        && id.size() <= 128
+        && id.matches('^[a-zA-Z0-9_-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isFarmOwner(farmId) {
+      return isVerifiedUser()
+        && exists(/databases/$(database)/documents/farms/$(farmId))
+        && get(/databases/$(database)/documents/farms/$(farmId)).data.ownerId == request.auth.uid;
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Blueprints (Anti-Update-Gap)
+    // -------------------------------------------------------------------------
+    function isValidUserPublic(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'role', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'displayName', 'role', 'createdAt', 'updatedAt'])
+        && isValidId(data.uid)
+        && data.uid == userId
+        && data.uid == request.auth.uid
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 120
+        && data.role == 'FARMER'
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidUserPrivate(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'preferredLanguage', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'email', 'phone', 'preferredLanguage', 'createdAt', 'updatedAt'])
+        && isValidId(data.uid)
+        && data.uid == userId
+        && data.uid == request.auth.uid
+        && data.email is string
+        && data.email.size() >= 3
+        && data.email.size() <= 200
+        && (!data.keys().hasAny(['phone']) || (data.phone is string && data.phone.size() <= 30))
+        && data.preferredLanguage in ['en', 'hi', 'mr']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidFarm(data, farmId) {
+      return data.keys().hasAll([
+          'id', 'ownerId', 'name', 'village', 'district', 'state',
+          'latitude', 'longitude', 'agroclimaticZone', 'totalAreaAcres',
+          'waterAvailability', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'ownerId', 'name', 'village', 'district', 'state',
+          'latitude', 'longitude', 'agroclimaticZone', 'totalAreaAcres',
+          'waterAvailability', 'status', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.id == farmId
+        && isValidId(data.ownerId)
+        && data.ownerId == request.auth.uid
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 160
+        && data.village is string && data.village.size() >= 1 && data.village.size() <= 120
+        && data.district is string && data.district.size() >= 1 && data.district.size() <= 120
+        && data.state is string && data.state.size() >= 1 && data.state.size() <= 120
+        && data.latitude is number && data.latitude >= -90 && data.latitude <= 90
+        && data.longitude is number && data.longitude >= -180 && data.longitude <= 180
+        && data.agroclimaticZone is string && data.agroclimaticZone.size() >= 1 && data.agroclimaticZone.size() <= 200
+        && data.totalAreaAcres is number && data.totalAreaAcres > 0 && data.totalAreaAcres <= 100000
+        && data.waterAvailability in ['Rainfed', 'Limited', 'Irrigated']
+        && data.status in ['ACTIVE', 'ARCHIVED']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidField(data, farmId, fieldId) {
+      return data.keys().hasAll([
+          'id', 'farmId', 'ownerId', 'name', 'areaAcres',
+          'waterAvailability', 'centroidLat', 'centroidLon', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'farmId', 'ownerId', 'name', 'areaAcres',
+          'soilType', 'currentCrop', 'previousCrop',
+          'waterAvailability', 'centroidLat', 'centroidLon', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.id == fieldId
+        && isValidId(data.farmId)
+        && data.farmId == farmId
+        && isValidId(data.ownerId)
+        && data.ownerId == request.auth.uid
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 160
+        && data.areaAcres is number && data.areaAcres > 0 && data.areaAcres <= 50000
+        && (!data.keys().hasAny(['soilType']) || (data.soilType is string && data.soilType.size() <= 100))
+        && (!data.keys().hasAny(['currentCrop']) || (data.currentCrop is string && data.currentCrop.size() <= 100))
+        && (!data.keys().hasAny(['previousCrop']) || (data.previousCrop is string && data.previousCrop.size() <= 100))
+        && data.waterAvailability in ['Rainfed', 'Limited', 'Irrigated']
+        && data.centroidLat is number && data.centroidLat >= -90 && data.centroidLat <= 90
+        && data.centroidLon is number && data.centroidLon >= -180 && data.centroidLon <= 180
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidRotationPlan(data, farmId, planId) {
+      return data.keys().hasAll([
+          'id', 'farmId', 'fieldId', 'ownerId', 'planningSeason',
+          'selectedStrategyType', 'selectedCrop', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'farmId', 'fieldId', 'ownerId', 'planningSeason',
+          'selectedStrategyType', 'selectedCrop', 'status', 'summaryNote', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.id == planId
+        && isValidId(data.farmId)
+        && data.farmId == farmId
+        && isValidId(data.fieldId)
+        && isValidId(data.ownerId)
+        && data.ownerId == request.auth.uid
+        && data.planningSeason in ['Kharif', 'Rabi', 'Zaid']
+        && data.selectedStrategyType in ['EXISTING', 'MINIMAL_CHANGE', 'ALTERNATIVE']
+        && data.selectedCrop is string && data.selectedCrop.size() >= 1 && data.selectedCrop.size() <= 120
+        && data.status in ['DRAFT', 'APPROVED', 'COMPLETED', 'ARCHIVED']
+        && (!data.keys().hasAny(['summaryNote']) || (data.summaryNote is string && data.summaryNote.size() <= 500))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidFarmTask(data, farmId, taskId) {
+      return data.keys().hasAll([
+          'id', 'farmId', 'fieldId', 'ownerId', 'title',
+          'category', 'dueDate', 'priority', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'farmId', 'fieldId', 'ownerId', 'title',
+          'category', 'dueDate', 'priority', 'status', 'farmerFeedback', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.id == taskId
+        && isValidId(data.farmId)
+        && data.farmId == farmId
+        && isValidId(data.fieldId)
+        && isValidId(data.ownerId)
+        && data.ownerId == request.auth.uid
+        && data.title is string && data.title.size() >= 1 && data.title.size() <= 200
+        && data.category is string && data.category.size() >= 1 && data.category.size() <= 80
+        && data.dueDate is string && data.dueDate.size() >= 10 && data.dueDate.size() <= 32
+        && data.priority in ['High', 'Medium', 'Low']
+        && data.status in ['UPCOMING', 'POSTPONED', 'COMPLETED']
+        && (!data.keys().hasAny(['farmerFeedback']) || (data.farmerFeedback is string && data.farmerFeedback.size() <= 500))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // -------------------------------------------------------------------------
+    // Collection Rules
+    // -------------------------------------------------------------------------
+    match /test/connection {
+      allow get: if isSignedIn();
+      allow list, write: if false;
+    }
+
+    match /admins/{userId} {
+      allow get: if isOwner(userId);
+      allow list, write: if false;
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isVerifiedUser() && resource.data.uid == request.auth.uid;
+      allow create: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserPublic(incoming(), userId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isVerifiedUser()
+        && isValidId(userId)
+        && isValidUserPublic(incoming(), userId)
+        && (
+          (
+            isOwner(userId)
+            && incoming().uid == existing().uid
+            && incoming().role == existing().role
+            && incoming().createdAt == existing().createdAt
+            && incoming().updatedAt == request.time
+            && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'updatedAt'])
+          ) || isAdmin()
+        );
+      allow delete: if false;
+
+      match /private/{docId} {
+        allow get: if isValidId(userId) && isValidId(docId) && (isOwner(userId) || isAdmin());
+        allow list: if isVerifiedUser() && resource.data.uid == request.auth.uid;
+        allow create: if isOwner(userId)
+          && isValidId(userId)
+          && docId == 'info'
+          && isValidUserPrivate(incoming(), userId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time;
+        allow update: if isVerifiedUser()
+          && isValidId(userId)
+          && docId == 'info'
+          && isValidUserPrivate(incoming(), userId)
+          && (
+            (
+              isOwner(userId)
+              && incoming().uid == existing().uid
+              && incoming().createdAt == existing().createdAt
+              && incoming().updatedAt == request.time
+              && incoming().diff(existing()).affectedKeys().hasOnly(['phone', 'preferredLanguage', 'updatedAt'])
+            ) || isAdmin()
+          );
+        allow delete: if false;
+      }
+    }
+
+    match /farms/{farmId} {
+      allow get: if isVerifiedUser()
+        && isValidId(farmId)
+        && (resource.data.ownerId == request.auth.uid || isAdmin());
+      allow list: if isVerifiedUser() && resource.data.ownerId == request.auth.uid;
+      allow create: if isVerifiedUser()
+        && isValidId(farmId)
+        && isValidFarm(incoming(), farmId)
+        && incoming().status == 'ACTIVE'
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isVerifiedUser()
+        && isValidId(farmId)
+        && isValidFarm(incoming(), farmId)
+        && (
+          (
+            existing().ownerId == request.auth.uid
+            && existing().status != 'ARCHIVED'
+            && incoming().id == existing().id
+            && incoming().ownerId == existing().ownerId
+            && incoming().createdAt == existing().createdAt
+            && incoming().updatedAt == request.time
+            && (
+              incoming().diff(existing()).affectedKeys().hasOnly([
+                'name', 'village', 'district', 'state',
+                'latitude', 'longitude', 'agroclimaticZone',
+                'totalAreaAcres', 'waterAvailability', 'updatedAt'
+              ]) ||
+              (
+                incoming().status == 'ARCHIVED'
+                && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+              )
+            )
+          ) || isAdmin()
+        );
+      allow delete: if false;
+
+      match /fields/{fieldId} {
+        allow get: if isVerifiedUser() && isValidId(farmId) && isValidId(fieldId) && (isFarmOwner(farmId) || isAdmin());
+        allow list: if isVerifiedUser() && resource.data.ownerId == request.auth.uid;
+        allow create: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(fieldId)
+          && isValidField(incoming(), farmId, fieldId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && isFarmOwner(farmId);
+        allow update: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(fieldId)
+          && isValidField(incoming(), farmId, fieldId)
+          && (
+            (
+              existing().ownerId == request.auth.uid
+              && incoming().id == existing().id
+              && incoming().farmId == existing().farmId
+              && incoming().ownerId == existing().ownerId
+              && incoming().createdAt == existing().createdAt
+              && incoming().updatedAt == request.time
+              && incoming().diff(existing()).affectedKeys().hasOnly([
+                'name', 'areaAcres', 'soilType', 'currentCrop',
+                'previousCrop', 'waterAvailability', 'centroidLat', 'centroidLon', 'updatedAt'
+              ])
+              && isFarmOwner(farmId)
+            ) || isAdmin()
+          );
+        allow delete: if false;
+      }
+
+      match /rotationPlans/{planId} {
+        allow get: if isVerifiedUser() && isValidId(farmId) && isValidId(planId) && (isFarmOwner(farmId) || isAdmin());
+        allow list: if isVerifiedUser() && resource.data.ownerId == request.auth.uid;
+        allow create: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(planId)
+          && isValidRotationPlan(incoming(), farmId, planId)
+          && incoming().status in ['DRAFT', 'APPROVED']
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && isFarmOwner(farmId)
+          && exists(/databases/$(database)/documents/farms/$(farmId)/fields/$(incoming().fieldId));
+        allow update: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(planId)
+          && isValidRotationPlan(incoming(), farmId, planId)
+          && (
+            (
+              existing().ownerId == request.auth.uid
+              && !(existing().status in ['COMPLETED', 'ARCHIVED'])
+              && incoming().id == existing().id
+              && incoming().farmId == existing().farmId
+              && incoming().fieldId == existing().fieldId
+              && incoming().ownerId == existing().ownerId
+              && incoming().createdAt == existing().createdAt
+              && incoming().updatedAt == request.time
+              && (
+                (
+                  incoming().status in ['APPROVED', 'COMPLETED', 'ARCHIVED']
+                  && incoming().diff(existing()).affectedKeys().hasOnly([
+                    'selectedStrategyType', 'selectedCrop', 'status', 'summaryNote', 'updatedAt'
+                  ])
+                ) ||
+                (
+                  incoming().status == existing().status
+                  && incoming().diff(existing()).affectedKeys().hasOnly(['summaryNote', 'updatedAt'])
+                )
+              )
+              && isFarmOwner(farmId)
+            ) || isAdmin()
+          );
+        allow delete: if false;
+      }
+
+      match /tasks/{taskId} {
+        allow get: if isVerifiedUser() && isValidId(farmId) && isValidId(taskId) && (isFarmOwner(farmId) || isAdmin());
+        allow list: if isVerifiedUser() && resource.data.ownerId == request.auth.uid;
+        allow create: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(taskId)
+          && isValidFarmTask(incoming(), farmId, taskId)
+          && incoming().status == 'UPCOMING'
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && isFarmOwner(farmId)
+          && exists(/databases/$(database)/documents/farms/$(farmId)/fields/$(incoming().fieldId));
+        allow update: if isVerifiedUser()
+          && isValidId(farmId)
+          && isValidId(taskId)
+          && isValidFarmTask(incoming(), farmId, taskId)
+          && (
+            (
+              existing().ownerId == request.auth.uid
+              && existing().status != 'COMPLETED'
+              && incoming().id == existing().id
+              && incoming().farmId == existing().farmId
+              && incoming().fieldId == existing().fieldId
+              && incoming().ownerId == existing().ownerId
+              && incoming().createdAt == existing().createdAt
+              && incoming().updatedAt == request.time
+              && (
+                (
+                  incoming().status == 'POSTPONED'
+                  && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'dueDate', 'farmerFeedback', 'updatedAt'])
+                ) ||
+                (
+                  incoming().status == 'COMPLETED'
+                  && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'farmerFeedback', 'updatedAt'])
+                ) ||
+                (
+                  incoming().status == existing().status
+                  && incoming().diff(existing()).affectedKeys().hasOnly(['farmerFeedback', 'updatedAt'])
+                )
+              )
+              && isFarmOwner(farmId)
+            ) || isAdmin()
+          );
+        allow delete: if false;
+      }
+    }
+  }
+}

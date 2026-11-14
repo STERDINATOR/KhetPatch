@@ -1,0 +1,1804 @@
+# KHETPATCH — FINAL MASTER EXECUTION PROMPT
+## Complete Enterprise Implementation | Real NASA Data | Location-Aware AI | Agricultural Decision Intelligence | Crop Rotation Optimisation | Autonomous Farm Follow-ups
+
+**Priority: P0 / Critical**
+
+**Project:** KhetPatch  
+**Tagline:** Better Crops. Healthier Soil. Brighter Tomorrow.  
+**Team:** Codex  
+**Competition:** NASA Space Apps Challenge  
+**Institution:** Sanjivani University, Kopargaon, Maharashtra, India.
+
+---
+
+# 1. EXECUTION DIRECTIVE
+
+You are taking responsibility for completing the existing KhetPatch application.
+
+Act as a principal software architect, senior full-stack developer, geospatial engineer, NASA Earth-observation specialist, agricultural data scientist, AI engineer, database architect, DevOps engineer, UX designer and application security specialist.
+
+Your task is to transform the existing KhetPatch project into a fully functional, integrated, enterprise-grade agricultural intelligence platform.
+
+This is an implementation task, not a planning task.
+
+**Do not produce another architecture proposal, a collection of static screens, an incomplete prototype or a superficial AI chatbot. Implement the actual product.**
+
+First inspect the current repository, installed packages, working modules, database, authentication, deployment environment and existing integrations.
+
+Preserve functioning modules and build on top of the existing codebase.
+
+Do not unnecessarily replace the existing application or restart from scratch.
+
+Your final application must have:
+
+- A fully functional frontend.
+- A connected persistent database.
+- A working backend.
+- Real authentication and authorization.
+- Five operational role-specific workspaces.
+- Actual NASA data integrations.
+- Location-specific weather and environmental intelligence.
+- A functioning agricultural knowledge system.
+- A real crop-rotation optimisation engine.
+- An AI assistant grounded in verified records.
+- Budget and market intelligence.
+- An event-driven follow-up engine.
+- Real-time or appropriately refreshed notifications.
+- Working reporting and administrative modules.
+- Automated tests.
+- Deployment-ready configuration.
+
+Every module must communicate with the same backend and authoritative data layer.
+
+Do not implement features independently in ways that create contradictory information.
+
+**Most important rule: Every recommendation, AI explanation, environmental metric and follow-up must be connected to traceable records.**
+
+Do not claim completion until the actual end-to-end workflow has been implemented and tested.
+
+---
+
+# 2. THE EXACT VISUAL DESIGN IS MANDATORY
+
+The attached KhetPatch landing-page image is the source of truth for the application's visual design.
+
+Reproduce its composition as closely as possible.
+
+Do not reinterpret it into a generic SaaS dashboard.
+
+## 2.1 Design identity
+
+Use the following design language:
+
+- Deep midnight navy.
+- Dark ocean blue.
+- Luminous lime green.
+- Cyan and turquoise satellite effects.
+- Forest green.
+- White and light-neutral typography.
+- Glassmorphism for environmental information cards.
+- Soft gradients.
+- Restrained glowing edges.
+- Premium agricultural imagery.
+- Cinematic Earth-observation visuals.
+
+Suggested design tokens:
+
+```css
+:root {
+  --navy-950: #03152B;
+  --navy-900: #071E38;
+  --navy-800: #0B2A48;
+
+  --forest-950: #032B20;
+  --forest-900: #06412E;
+
+  --green-600: #45B83A;
+  --lime-400: #A7F33C;
+  --lime-300: #C4FF63;
+
+  --cyan-500: #06B6D4;
+  --cyan-400: #27D7ED;
+
+  --surface: #F8FBF6;
+  --text-dark: #10251D;
+  --text-light: #F7FAFC;
+
+  --border-soft: #DCE8DC;
+}
+```
+
+Use a premium geometric sans-serif font.
+
+Use custom SVG illustrations, Lucide icons, high-quality imagery and subtle transitions.
+
+Avoid generic cards, excessive gradients and unnecessary animation.
+
+## 2.2 Reproduce the attached landing page
+
+The page must contain:
+
+**A. Navigation**
+
+- KhetPatch logo.
+- Home.
+- How It Works.
+- NASA Data.
+- For Farmers.
+- For Experts.
+- Resources.
+- About.
+- Language selector.
+- Log In.
+- Get Started.
+
+Sticky, responsive and functional navigation is mandatory.
+
+**B. Hero section**
+
+Main heading:
+
+"Better Crops.  
+Healthier Soil.  
+Brighter Tomorrow."
+
+Use lime-green highlighting for "Healthier Soil."
+
+Supporting message:
+
+"KhetPatch brings NASA Earth observations and local agricultural knowledge together to help farmers explore smarter crop rotations and build resilience to changing conditions."
+
+Add:
+
+- NASA Earth observation × Agricultural Intelligence badge.
+- Explore KhetPatch CTA.
+- How It Works CTA.
+- Crop Rotation Planning feature.
+- NASA Observations feature.
+- Soil Health Insights feature.
+- Climate Resilience feature.
+
+**C. Earth-observation visual**
+
+Recreate the prominent central visual with:
+
+- Planet Earth.
+- India highlighted when the selected location is in India.
+- Satellite spacecraft.
+- Observation beams.
+- Geospatial patterns.
+- Agricultural landscape.
+- Sunrise atmosphere.
+- Soil and root cross-section.
+
+Use genuine NASA imagery or a clearly decorative scientific illustration.
+
+Where actual satellite data layers are displayed, obtain them from real configured products. Never create a fake satellite map and label it an observation.
+
+The visual artwork and numerical environmental observations must remain separate.
+
+**D. Dynamic environmental metric cards**
+
+Position four floating cards on the right:
+
+1. Rainfall.
+2. Soil Moisture.
+3. Vegetation Health.
+4. Temperature.
+
+These must be dynamically populated from actual data services.
+
+The reference image shows example numbers, but those exact values are illustrative.
+
+**Never copy the reference numbers into the running application.**
+
+Use the active authenticated farmer's selected farm or an explicitly selected public location.
+
+Before the user selects a location, show a location-selection state instead of fabricated data.
+
+For each card display:
+
+- Value.
+- Unit.
+- Dataset or provider.
+- Observation date/time.
+- Data retrieval time.
+- Spatial resolution where relevant.
+- Data freshness.
+- Quality status.
+- Tooltip explaining the metric.
+
+**E. Process bar**
+
+Reproduce:
+
+"From Space to Your Farm"
+
+Observe from Space → Understand Your Land → Compare Crop Rotations → Make an Informed Decision.
+
+**F. Crop rotation section**
+
+Reproduce the three illustrated strategy cards:
+
+1. Existing Rotation.
+2. Minimal Change Rotation.
+3. Alternative Rotation.
+
+Preserve their green, amber and violet identities.
+
+Each card must open a fully functioning comparison page with actual recommendation data.
+
+## 2.3 All application screens must follow the same identity
+
+Build the remaining authenticated application using a consistent dark-navy navigation system, luminous green highlights, professional data visualisations and a lighter content surface.
+
+Farmer screens should be simple and highly readable.
+
+Agronomist and administrator screens should look like serious enterprise intelligence workspaces.
+
+---
+
+# 3. MANDATORY TECHNOLOGY ARCHITECTURE
+
+Inspect and preserve the existing stack if it is operational.
+
+Preferred architecture:
+
+### Frontend
+- Next.js App Router.
+- React.
+- Strict TypeScript.
+- Tailwind CSS.
+- shadcn/ui.
+- Lucide icons.
+- React Hook Form.
+- Zod.
+- TanStack Query.
+- MapLibre or Leaflet.
+
+### Backend
+- Python.
+- FastAPI.
+- Pydantic.
+- SQLAlchemy.
+- Alembic.
+- Pandas.
+- NumPy.
+- Xarray.
+- GeoPandas.
+- Rasterio.
+- Shapely.
+- PyProj.
+- OR-Tools.
+
+### Database
+- Supabase.
+- PostgreSQL.
+- PostGIS.
+- Supabase Auth.
+- Supabase Storage.
+- Supabase Realtime where appropriate.
+
+### AI
+- Configurable server-side LLM provider.
+- OpenAI API integration where configured.
+- Retrieval-augmented generation.
+- Structured output.
+- Deterministic decision engine.
+
+### Background processing
+- Persistent scheduled jobs.
+- Retryable ingestion workers.
+- Event processing.
+- Database-backed task scheduling or a suitable durable job queue.
+
+Use compatible stable package versions.
+
+Create migrations and lockfiles.
+
+Do not move heavy geospatial computation into the frontend.
+
+---
+
+# 4. ABSOLUTE DATA INTEGRITY RULE: NO MOCK DATA
+
+The running application must not contain fake business or environmental information.
+
+This includes:
+
+- Fake rainfall.
+- Fake soil moisture.
+- Fake NDVI.
+- Fake temperature.
+- Fake farm records.
+- Fake market prices.
+- Fake weather forecasts.
+- Fake crop recommendations.
+- Fake AI-generated data citations.
+- Fake completed tasks.
+- Fake provider-connected statuses.
+- Fake success messages.
+- Fake usage statistics.
+
+Do not seed fictional agricultural records.
+
+Do not generate random chart values.
+
+Do not create dummy external API responses that are displayed to actual users.
+
+Do not present cached data as a newly observed measurement.
+
+Test fixtures may be used exclusively inside isolated automated tests. They must never appear in the application UI or production database.
+
+When an integration has no data, display its honest status and a useful explanation.
+
+When data is available, use the actual returned observation.
+
+If a provider needs a credential, tell the user exactly which credential must be configured.
+
+Do not silently fall back to fabricated data.
+
+---
+
+# 5. REAL LOCATION AND FARM CONTEXT
+
+Location must control the behaviour of the entire application.
+
+Implement farm-specific location intelligence.
+
+## 5.1 Location acquisition
+
+Support:
+
+- Device location after user permission.
+- Village search.
+- Taluka selection.
+- District selection.
+- State selection.
+- Interactive map pin.
+- Field-boundary polygon.
+- Manual latitude and longitude.
+
+Capture:
+
+- Latitude.
+- Longitude.
+- Accuracy.
+- Timestamp.
+- Acquisition method.
+- Reverse-geocoded location.
+- Village.
+- Taluka.
+- District.
+- State.
+- Country.
+
+Require explicit confirmation before saving a device location as a farm location.
+
+Keep user/device location and farm location separate.
+
+Support multiple farms and fields.
+
+## 5.2 Farm and field profiles
+
+Each farm must store:
+
+- Owner.
+- Name.
+- Location.
+- Total area.
+- Administrative geography.
+- Irrigation availability.
+- Water source.
+- Farm type.
+- Farmer preferences.
+- Relevant operational information.
+
+Each field must store:
+
+- Farm association.
+- Geometry.
+- Area.
+- Crop history.
+- Current crop.
+- Previous crop.
+- Crop family.
+- Planting date.
+- Harvest information.
+- Soil-test records.
+- Water availability.
+- Field notes.
+- Activity history.
+
+Store geometries in PostGIS.
+
+Use the actual field geometry for spatial intersection when the data source supports it.
+
+Never assume a district or village centroid represents an individual farm.
+
+---
+
+# 6. REAL NASA DATA ENGINEERING
+
+Implement actual NASA integrations.
+
+Use provider APIs, proper catalogue discovery, authenticated access where necessary and real product processing.
+
+Create a separate service for each provider.
+
+## 6.1 NASA GPM IMERG
+
+Official source:
+
+https://gpm.nasa.gov/data/imerg
+
+Use the current officially supported IMERG product and version, discovered from NASA metadata.
+
+Prioritise Early Run for low-latency rainfall context when available.
+
+Support Late and Final products for their appropriate use cases.
+
+Retrieve and process:
+
+- Precipitation rate.
+- Precipitation accumulation.
+- Observation interval.
+- Granule ID.
+- Product version.
+- Spatial resolution.
+- Quality information.
+- Actual source timestamp.
+
+Use official NASA Earthdata/GES DISC or PPS access methods.
+
+Implement real authentication where required.
+
+Handle different product units correctly.
+
+Never sum rainfall rates as if they were accumulated rainfall.
+
+Never label 10-km satellite estimates as direct rain-gauge readings.
+
+## 6.2 NASA SMAP
+
+Official source:
+
+https://nsidc.org/data/smap
+
+Implement appropriate SMAP L4 products:
+
+- SPL4SMAU.
+- SPL4SMGP.
+
+Also evaluate appropriate enhanced L3 soil-moisture products when they provide more timely radiometer observations for a supported use case.
+
+Retrieve:
+
+- Surface moisture.
+- Root-zone moisture where available.
+- Product version.
+- Observation date.
+- Publication/availability date.
+- Native resolution.
+- Quality flags.
+- Physical units.
+
+SMAP L4 products provide approximately 9-km and three-hourly temporal information, but the archive may have around seven days of latency.
+
+Respect actual product availability.
+
+Do not claim that three-hourly observation cadence means data is published every three hours.
+
+Never present SMAP as a direct field probe.
+
+## 6.3 NASA POWER
+
+Official API:
+
+https://power.larc.nasa.gov/docs/services/api/
+
+Implement hourly and daily API requests using actual field coordinates.
+
+Support appropriate meteorological parameters after checking current official parameter definitions.
+
+Potential inputs:
+
+- Temperature.
+- Maximum and minimum temperature.
+- Relative humidity.
+- Precipitation.
+- Solar radiation.
+- Wind parameters where supported.
+- Relevant agroclimatology parameters.
+
+Preserve source units and time standards.
+
+Explicitly handle UTC versus Local Solar Time.
+
+Do not confuse source time with India's civil time.
+
+Use this service for actual meteorological time-series and historical environmental context.
+
+## 6.4 Landsat 8 and Landsat 9
+
+Official source:
+
+https://www.usgs.gov/landsat-missions/landsat-collection-2
+
+Use actual Collection 2 Level-2 surface-reflectance products.
+
+Discover available scenes using a supported official catalogue/STAC access route.
+
+Process:
+
+- Landsat 8 OLI data.
+- Landsat 9 OLI-2 data.
+- Surface-reflectance bands.
+- Product metadata.
+- Cloud cover.
+- QA_PIXEL.
+- QA_RADSAT.
+- Valid pixel proportions.
+
+Apply official surface-reflectance scaling and offsets where required.
+
+Use the correct red and near-infrared bands for each sensor.
+
+For the relevant Landsat 8/9 surface-reflectance bands:
+
+- Red: SR_B4.
+- Near infrared: SR_B5.
+
+Calculate:
+
+NDVI = (NIR - RED) / (NIR + RED)
+
+Apply cloud, cloud-shadow, saturation and invalid-data masks.
+
+Aggregate actual valid pixels intersecting the field boundary.
+
+Store:
+
+- Acquisition date.
+- Scene ID.
+- Product ID.
+- Sensor.
+- Processing date.
+- Valid pixels.
+- Cloud information.
+- Field statistics.
+- Source metadata.
+
+Do not claim that NDVI directly measures soil fertility or nutrient levels.
+
+Do not present an old scene as current vegetation status.
+
+## 6.5 NASA GIBS
+
+Where useful, integrate official NASA GIBS imagery for Earth-observation map visualisation.
+
+Ensure that displayed layers are genuinely retrieved from the provider.
+
+Clearly separate visual map layers from the scientific numerical calculations.
+
+## 6.6 Shared NASA provider architecture
+
+Create:
+
+```text
+integrations/nasa/
+    base.py
+    earthdata_auth.py
+    earthdata_catalogue.py
+    gpm_imerg.py
+    smap_l4.py
+    nasa_power.py
+    landsat.py
+    gibs.py
+    data_registry.py
+    freshness.py
+    quality.py
+    health.py
+```
+
+Implement:
+
+- Actual requests.
+- Timeouts.
+- Retries.
+- Backoff.
+- Rate limits.
+- Product discovery.
+- Granule discovery.
+- File downloads.
+- Raster processing.
+- Unit conversion.
+- Quality checks.
+- Idempotency.
+- Database persistence.
+- Provenance.
+
+Never make all provider requests synchronously from the landing-page render.
+
+Use a background ingestion pipeline and serve saved, validated observations to users.
+
+---
+
+# 7. REAL INDIAN WEATHER INTELLIGENCE
+
+The application must use current location-specific weather data.
+
+Primary Indian weather source:
+
+India Meteorological Department:
+
+https://api.imd.gov.in/public/
+
+API reference:
+
+https://api.imd.gov.in/public/api_reference.html
+
+Implement applicable official services:
+
+- Current weather.
+- City forecast.
+- Coordinate-based forecast where supported.
+- District nowcast.
+- Station nowcast.
+- District warnings.
+- Subdivision warnings.
+- District rainfall.
+- State rainfall.
+- Agromet advisory.
+- Seasonal rainfall information where available.
+
+Use the actual access procedure and credentials required by IMD.
+
+Do not invent endpoints or authentication headers.
+
+Build the adapter after inspecting the current official API documentation.
+
+A supporting forecast provider such as Open-Meteo may be used where permitted by its usage and licensing terms:
+
+https://open-meteo.com/en/docs
+
+Keep official IMD warnings authoritative for Indian weather alerts.
+
+Never replace an official severe-weather warning with an unverified AI interpretation.
+
+Display:
+
+- Current observation.
+- Forecast horizon.
+- Rainfall.
+- Temperature.
+- Humidity.
+- Wind.
+- ET0 where available.
+- Warning level.
+- Forecast issue time.
+- Observation time.
+- Provider.
+
+Weather forecasts must be treated as forecasts, not completed events.
+
+---
+
+# 8. REAL SOIL AND AGRICULTURAL INFORMATION
+
+Implement an integrated soil and agricultural knowledge service.
+
+## Soil information
+
+Support actual:
+
+- Soil Health Card information where available.
+- Laboratory soil-test reports.
+- Farmer-confirmed soil observations.
+- Approved expert-entered data.
+- Soil profiles.
+
+Store:
+
+- pH.
+- EC.
+- Organic carbon.
+- Nitrogen.
+- Phosphorus.
+- Potassium.
+- Relevant micronutrients.
+- Sample date.
+- Laboratory.
+- Units.
+- Source.
+- Verification status.
+
+Do not manufacture soil measurements from satellite imagery.
+
+Satellite soil-moisture products are not substitutes for laboratory soil tests.
+
+## Regional crop knowledge
+
+For Maharashtra, prioritise verifiable information from:
+
+- Mahatma Phule Krishi Vidyapeeth, Rahuri.
+- ICAR.
+- Local KVKs.
+- IMD agromet advisories.
+- Relevant state agricultural departments.
+- Official regional agricultural publications.
+
+Sources:
+
+https://mpkv.ac.in/Research/ResearchTechRecomm
+
+https://icar.gov.in/
+
+https://agromet.imd.gov.in/
+
+Build a versioned crop-knowledge catalogue.
+
+Each crop record must include verified data where available:
+
+- Crop family.
+- Scientific name.
+- Local names.
+- Suitable agroclimatic regions.
+- Crop season.
+- Sowing window.
+- Crop duration.
+- Water requirements.
+- Soil suitability.
+- Irrigation requirements.
+- Known rotation restrictions.
+- Pest/disease break rules.
+- Source.
+- Publication date.
+- Expert review status.
+
+Do not allow an LLM to convert arbitrary web content into authoritative agricultural rules.
+
+Human/expert verification is mandatory for important hard constraints.
+
+---
+
+# 9. REAL MARKET AND ECONOMIC INTELLIGENCE
+
+Integrate actual agricultural market data.
+
+Primary starting point:
+
+https://data.gov.in/catalog/current-daily-price-various-commodities-various-markets-mandi
+
+Use the official AGMARKNET-derived daily market-price dataset.
+
+Use its actual API documentation, resource identifiers and registered credentials.
+
+Capture:
+
+- Commodity.
+- Variety.
+- Market.
+- District.
+- State.
+- Arrival date.
+- Minimum price.
+- Maximum price.
+- Modal price.
+- Unit.
+- Retrieval date.
+
+These are daily mandi wholesale prices, not guaranteed real-time farm-gate selling prices.
+
+Compare relevant markets only when actual data exists.
+
+Never fabricate missing market prices.
+
+## Budget management
+
+Capture actual farmer requirements:
+
+- Total budget.
+- Area.
+- Budget per acre.
+- Available capital.
+- Irrigation budget.
+- Labour budget.
+- Machinery availability.
+- Seed availability.
+- Input inventory.
+- Risk preference.
+- Maximum acceptable expenditure.
+
+Support real farmer-entered quotations and invoices.
+
+Build transparent cost breakdowns.
+
+Every financial estimate must distinguish:
+
+- Actual farmer-provided value.
+- Verified market quote.
+- Official reference.
+- Historical estimate.
+- Missing input.
+
+Never generate guaranteed yield or profit projections.
+
+---
+
+# 10. UNIFIED FARM DECISION CONTEXT
+
+This service must be the central source of truth for all AI and decision modules.
+
+Implement:
+
+```python
+build_farm_decision_context(
+    user_id,
+    farm_id,
+    field_id,
+    planning_season
+)
+```
+
+It must assemble:
+
+1. Actual location and field boundary.
+2. Geographic and demographic context relevant to agriculture.
+3. Farmer requirements.
+4. Budget and financial resources.
+5. Soil profile and test results.
+6. Current weather and forecasts.
+7. IMD warnings and advisories.
+8. NASA observations.
+9. Crop history.
+10. Local crop knowledge.
+11. Mandi market data.
+12. Input cost records.
+13. Approved agricultural rules.
+14. Data quality and freshness.
+15. Missing information.
+16. Source references.
+
+Persist a versioned snapshot.
+
+Every downstream decision must refer to the specific context ID and version.
+
+Use proper typed schemas.
+
+Do not merge data with different units, timestamps or scientific meaning.
+
+Do not turn missing values into zero.
+
+Do not treat estimates as measurements.
+
+Do not silently select an unreliable source when reliable sources disagree.
+
+When information is stale, show the last valid record and explain its age.
+
+---
+
+# 11. REAL CROP-ROTATION INTELLIGENCE ENGINE
+
+Implement the crop-rotation engine as a real Python decision service.
+
+Use OR-Tools CP-SAT or an equivalent deterministic constraint solver.
+
+The engine must consume the actual versioned Farm Decision Context.
+
+It must not rely on the LLM to decide agricultural feasibility.
+
+## 11.1 Hard constraints
+
+Evaluate:
+
+- Geographic crop suitability.
+- Agroclimatic zone.
+- Correct season.
+- Sowing-window feasibility.
+- Crop duration.
+- Current crop.
+- Previous crop history.
+- Crop-family restrictions.
+- Known pest/disease breaks.
+- Soil-test constraints.
+- Water limitations.
+- Irrigation availability.
+- Budget limits.
+- Farmer's crop restrictions.
+- Resource availability.
+- Other verified local agricultural rules.
+
+A plan that violates a mandatory hard constraint must be marked infeasible.
+
+Do not allow an AI model to override this.
+
+## 11.2 Soft objectives
+
+Evaluate supported factors:
+
+- Economic affordability.
+- Water demand.
+- Crop diversity.
+- Nutrient cycling.
+- Soil cover.
+- Root characteristics.
+- Weather-related exposure.
+- Market availability.
+- Labour requirements.
+- Machinery requirements.
+- Farmer preferences.
+- Long-term sustainability.
+
+Use transparent multi-objective optimisation and show trade-offs.
+
+Do not hide all factors inside an unexplained score.
+
+## 11.3 Three strategy outputs
+
+**Strategy 1: Existing Rotation**
+
+Evaluate the current sequence.
+
+Show its actual environmental, agronomic and economic considerations.
+
+**Strategy 2: Minimal Change Rotation**
+
+Find the closest feasible improvement that respects the farmer's limitations and preferred practices.
+
+**Strategy 3: Alternative Rotation**
+
+Find a distinct feasible crop sequence and explain the advantages, disadvantages and requirements.
+
+Do not invent alternatives just to fill three cards.
+
+## 11.4 Economic calculations
+
+Calculate actual available cost information:
+
+- Seeds.
+- Land preparation.
+- Labour.
+- Fertiliser.
+- Irrigation.
+- Energy.
+- Machinery.
+- Crop-protection inputs where applicable.
+- Harvesting.
+- Transport.
+- Other verified costs.
+
+Show:
+
+- Estimated cost per acre.
+- Total field cost.
+- Upfront expenditure.
+- Stage-wise cost.
+- Budget remaining.
+- Missing cost information.
+- Relevant market price.
+- Indicative revenue only where source-backed yield assumptions exist.
+- Financial uncertainty.
+
+A farmer's available budget must materially affect the plans generated.
+
+## 11.5 Required strategy evidence
+
+Every generated strategy must carry:
+
+- Context ID.
+- Context version.
+- Algorithm version.
+- Rule-set version.
+- Actual inputs.
+- Data sources.
+- Constraint evaluations.
+- Budget calculation.
+- Feasibility.
+- Uncertainty.
+- Missing information.
+- Generated timestamp.
+
+Make recommendations reproducible.
+
+---
+
+# 12. REAL AI IMPLEMENTATION
+
+The AI modules must work against the actual backend and records.
+
+Do not build a simple chatbot that merely responds to user messages.
+
+Build a coordinated, evidence-grounded AI system.
+
+## Agent A — Farmer Intent Agent
+
+Extract structured requirements from natural language.
+
+Understand:
+
+- Budget.
+- Land size.
+- Preferred crops.
+- Crop duration.
+- Water limitations.
+- Resource availability.
+- Market preferences.
+- Risk tolerance.
+- Planning horizon.
+
+Ask for genuinely missing information.
+
+Save confirmed requirements to the user's profile.
+
+## Agent B — Environmental Intelligence Agent
+
+Retrieve actual permitted records for the selected farm.
+
+Explain:
+
+- Weather.
+- Rainfall.
+- NASA data.
+- Soil-water context.
+- Vegetation indicators.
+- Climate history.
+- Official warnings.
+
+Attach source metadata and timestamps.
+
+## Agent C — Agricultural Knowledge Agent
+
+Retrieve only relevant, geographically appropriate, verified agricultural knowledge.
+
+Include references.
+
+Never invent crop requirements or sowing periods.
+
+## Agent D — Budget and Market Agent
+
+Evaluate actual budget constraints, input quotations and mandi prices.
+
+Explain financial suitability and missing information.
+
+Do not guarantee market outcomes.
+
+## Agent E — Crop Rotation Agent
+
+Execute the deterministic rotation engine.
+
+Explain the returned strategies.
+
+Never fabricate its results.
+
+## Agent F — Explanation and Advisory Agent
+
+Convert verified outputs into simple, helpful farmer-facing language.
+
+Distinguish:
+
+- Actual observations.
+- Forecasts.
+- Historical data.
+- Calculated values.
+- Model estimates.
+- Expert guidance.
+
+## Agent G — Follow-up Agent
+
+Use approved plans and actual crop-operation records to generate tasks and monitor relevant events.
+
+Never schedule a recommendation that lacks an approved agricultural basis.
+
+## Agent H — Field Memory Agent
+
+Retrieve:
+
+- Previous crops.
+- Farm details.
+- Accepted plans.
+- Rejected plans.
+- Completed tasks.
+- Farmer preferences.
+- Past feedback.
+- Expert decisions.
+
+The user must not have to repeat information that is already saved and authorised.
+
+## Critical AI architecture
+
+```text
+User input
+    ↓
+Intent extraction
+    ↓
+Authorised farm/field retrieval
+    ↓
+Versioned data context
+    ↓
+Deterministic domain engine
+    ↓
+Structured result
+    ↓
+LLM explanation
+    ↓
+User confirmation
+    ↓
+Persistent action
+```
+
+Use retrieval-augmented generation.
+
+Apply strict tenant isolation to retrieval.
+
+Protect against prompt injection.
+
+Do not send unnecessary personal information to AI providers.
+
+Implement safe failure behaviour when the AI provider is unavailable.
+
+---
+
+# 13. AUTONOMOUS FOLLOW-UP AND CONTINUOUS FARM OPERATIONS
+
+Implement an actual event-driven follow-up engine.
+
+The engine must continue operating when the user is logged out.
+
+Use durable backend workers, database events and scheduled processing.
+
+## Events to monitor
+
+- New weather forecast.
+- New IMD warning.
+- Updated rainfall observation.
+- New eligible NASA observation.
+- Crop history updated.
+- Planting date confirmed.
+- Farmer activity recorded.
+- Task overdue.
+- Expert review completed.
+- Budget changed.
+- Rotation plan approved.
+
+## Crop-operation schedules
+
+Generate schedules from the approved crop-specific rules.
+
+Each task needs:
+
+- Crop.
+- Farm.
+- Field.
+- Operation.
+- Due date/window.
+- Reason.
+- Source.
+- Trigger.
+- Assigned user.
+- Priority.
+- Completion requirements.
+- Status.
+
+## Weather-driven changes
+
+When a relevant weather event occurs:
+
+1. Identify geographically affected fields.
+2. Identify their active crops and actual recorded stages.
+3. Check relevant warnings.
+4. Check authoritative agronomic rules.
+5. Identify affected planned activities.
+6. Determine whether rescheduling or review is justified.
+7. Create a proposed follow-up.
+8. Notify the appropriate person.
+9. Record the decision and evidence.
+
+Do not give unsafe irrigation, chemical or fertiliser instructions from a single unverified input.
+
+Require farmer or expert confirmation where needed.
+
+## Farmer feedback
+
+After an activity, collect:
+
+- Completion confirmation.
+- Actual completion date.
+- Field observations.
+- Differences from expected conditions.
+- Problems.
+- Optional image and notes.
+- Expert support request.
+
+Persist the result in the farm timeline and use it in the next context build.
+
+Never mark tasks completed automatically without confirmation.
+
+Do not silently alter an accepted plan.
+
+---
+
+# 14. FIVE ROLE-SPECIFIC WORKSPACES
+
+Preserve all five existing roles and their appropriate layouts.
+
+```text
+FARMER             /farmer/home
+AGRONOMIST         /workspace/dashboard
+FPO_MANAGER        /organization/overview
+ORGANIZATION_ADMIN /organization/admin
+PLATFORM_ADMIN     /platform/admin
+```
+
+Implement complete real functionality within each role.
+
+## Farmer
+
+- Dashboard.
+- Farms.
+- Fields.
+- Crop history.
+- Soil profiles.
+- Rotation planner.
+- Three strategy comparison.
+- NASA insights.
+- Weather.
+- Budget.
+- Market prices.
+- Tasks.
+- Follow-ups.
+- Farm timeline.
+- AI assistant.
+- Notifications.
+- Expert support.
+- Reports.
+
+## Agronomist
+
+- Dashboard.
+- Assigned farmers.
+- Farms and fields.
+- Environmental intelligence.
+- Crop knowledge.
+- Agricultural rules.
+- Rotation optimisation.
+- Recommendation reviews.
+- Expert approvals.
+- Follow-up monitoring.
+- Reports.
+
+## FPO Manager
+
+- Organisation overview.
+- Members.
+- Farmers.
+- Farms.
+- Fields.
+- Rotation plans.
+- Follow-ups.
+- Agricultural activity overview.
+- Reports.
+
+## Organization Admin
+
+- User management.
+- Invitations.
+- Roles.
+- Memberships.
+- Permissions.
+- Audit logs.
+- Organisation configuration.
+
+## Platform Admin
+
+- Platform health.
+- Provider health.
+- NASA ingestion.
+- Background jobs.
+- Organisations.
+- User management.
+- Security events.
+- Audit logs.
+- System configuration.
+
+Keep organisational data isolated.
+
+Platform administration must not provide unrestricted access to private farmer records by default.
+
+## Authentication
+
+Preserve the existing authenticated architecture.
+
+Where the agreed demo configuration exists, retain one shared demo identity with all five authorised role assignments in the isolated demo environment.
+
+Workspace selection must be validated server-side.
+
+Do not grant elevated roles to ordinary signups.
+
+Never use frontend role selection as an authorization mechanism.
+
+---
+
+# 15. CONNECTED DATABASE AND PERSISTENT STORAGE
+
+Use the existing Supabase PostgreSQL and PostGIS database, or retain an equivalent already-functional database architecture.
+
+Implement and verify:
+
+- User profiles.
+- User roles.
+- Organizations.
+- Memberships.
+- Farms.
+- Fields.
+- Geospatial boundaries.
+- Crop catalogue.
+- Crop history.
+- Soil tests.
+- Farm preferences.
+- Farmer budgets.
+- Input cost records.
+- Weather observations.
+- NASA observations.
+- Market prices.
+- Agricultural references.
+- Rotation rules.
+- Decision-context snapshots.
+- Recommendations.
+- Recommendation evidence.
+- Expert reviews.
+- Crop cycles.
+- Tasks.
+- Follow-ups.
+- Farmer feedback.
+- Notifications.
+- AI conversations.
+- Source references.
+- Ingestion jobs.
+- Provider health.
+- Audit logs.
+
+Use migrations.
+
+Maintain foreign keys and appropriate indexes.
+
+Enable RLS and enforce ownership and organisation membership.
+
+All important application actions must persist.
+
+Do not build frontend state that disappears after a page refresh.
+
+Use transactions for operations that change multiple connected records.
+
+---
+
+# 16. CENTRAL DATA SYNCHRONISATION
+
+Create a reliable event-driven architecture.
+
+Events include:
+
+```text
+FARM_CREATED
+FARM_LOCATION_UPDATED
+FIELD_BOUNDARY_UPDATED
+SOIL_TEST_VERIFIED
+CROP_HISTORY_UPDATED
+FARMER_BUDGET_UPDATED
+FARMER_PREFERENCES_UPDATED
+
+NASA_OBSERVATION_INGESTED
+WEATHER_UPDATED
+IMD_WARNING_UPDATED
+MARKET_PRICE_UPDATED
+
+DECISION_CONTEXT_BUILT
+ROTATION_ANALYSIS_CREATED
+ROTATION_PLAN_APPROVED
+EXPERT_REVIEW_COMPLETED
+
+CROP_STAGE_CONFIRMED
+TASK_CREATED
+TASK_COMPLETED
+FOLLOWUP_TRIGGERED
+FARMER_FEEDBACK_RECEIVED
+```
+
+On a material event:
+
+1. Persist the event.
+2. Identify the affected records.
+3. Rebuild relevant data context.
+4. Identify recommendations that may be affected.
+5. Re-evaluate only relevant rules.
+6. Create a new recommendation version if necessary.
+7. Update proposed follow-up schedules.
+8. Notify authorised users.
+9. Preserve previous decisions and audit history.
+
+Use idempotency keys and durable processing.
+
+Do not repeatedly recalculate the entire platform for insignificant updates.
+
+---
+
+# 17. DATA QUALITY AND PROVENANCE
+
+Every environmental and agricultural value must record its origin.
+
+Minimum required metadata:
+
+```text
+provider
+dataset
+product
+product_version
+variable
+unit
+source_record_id
+source_url
+observation_start
+observation_end
+publication_time
+retrieval_time
+processing_time
+native_spatial_resolution
+quality_flags
+quality_status
+freshness_status
+processing_method
+```
+
+Show users whether a value is:
+
+- Newly retrieved.
+- Latest available.
+- Delayed source.
+- Cached.
+- Historical.
+- Estimated.
+- Farmer entered.
+- Laboratory measured.
+- Expert verified.
+
+Never confuse retrieval time with observation time.
+
+Never describe delayed NASA records as live measurements.
+
+If a provider becomes unavailable, keep the last valid record clearly labelled as cached or historical.
+
+---
+
+# 18. REQUIRED PUBLIC WEBSITE PAGES
+
+Complete all pages from the existing website architecture:
+
+- Home.
+- How It Works.
+- NASA Data.
+- For Farmers.
+- For Experts.
+- Resources.
+- About.
+- Login.
+- Signup.
+- Password recovery.
+
+Use the exact visual style of the attached reference.
+
+Make every CTA functional.
+
+The hero metrics must be tied to the actual location selected by the visitor or authenticated farmer.
+
+If the visitor has not selected a location, request one.
+
+Do not invent sample metrics for the landing page.
+
+Add a transparent data-source details interface.
+
+---
+
+# 19. API AND BACKEND COMPLETION
+
+Implement versioned APIs for all major functions.
+
+Required service families:
+
+```text
+/api/v1/auth
+/api/v1/users
+/api/v1/organizations
+/api/v1/farms
+/api/v1/fields
+/api/v1/crops
+/api/v1/crop-history
+/api/v1/soil
+/api/v1/location
+/api/v1/weather
+/api/v1/nasa
+/api/v1/environment
+/api/v1/markets
+/api/v1/requirements
+/api/v1/decision-context
+/api/v1/rotation
+/api/v1/recommendations
+/api/v1/expert-reviews
+/api/v1/crop-cycles
+/api/v1/tasks
+/api/v1/follow-ups
+/api/v1/assistant
+/api/v1/notifications
+/api/v1/reports
+/api/v1/admin
+/api/v1/audit
+/api/v1/health
+```
+
+Every endpoint must:
+
+- Validate authentication.
+- Authorise access.
+- Validate input.
+- Use persistent records.
+- Return consistent errors.
+- Log relevant operations.
+- Support pagination where appropriate.
+
+Connect every frontend form and button to the correct backend operation.
+
+---
+
+# 20. CONFIGURATION AND EXTERNAL INTEGRATIONS
+
+Create `.env.example`.
+
+Required configuration categories include:
+
+```env
+APP_ENV=development
+APP_URL=
+
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+DATABASE_URL=
+
+EARTHDATA_USERNAME=
+EARTHDATA_PASSWORD=
+EARTHDATA_TOKEN=
+
+IMD_API_BASE_URL=
+IMD_API_TOKEN=
+
+OPENAI_API_KEY=
+OPENAI_MODEL=
+
+DATA_GOV_IN_API_KEY=
+
+MAP_TILE_PROVIDER=
+GEOCODING_PROVIDER=
+
+DEMO_AUTH_ENABLED=true
+DEMO_ACCOUNT_EMAIL=
+DEMO_ACCOUNT_PASSWORD=
+
+CRON_SECRET=
+```
+
+Use server-side secret storage.
+
+Never expose private keys to the frontend.
+
+Do not invent credentials.
+
+If a provider requires registration, stop only that integration, clearly document the missing configuration and keep implementing the rest of the project.
+
+Create an integration setup page with real connection tests.
+
+Display:
+
+- Configured.
+- Connected and verified.
+- Authentication failed.
+- Rate limited.
+- Unavailable.
+- Not configured.
+
+Never mark a connection successful until a real request succeeds.
+
+---
+
+# 21. AUTOMATED QUALITY ASSURANCE
+
+Testing is a mandatory engineering task.
+
+Use:
+
+- Vitest.
+- React Testing Library.
+- Playwright.
+- Pytest.
+- Database/RLS tests.
+- Live external-provider smoke tests.
+
+## Verify the farmer journey
+
+Login → Create farm → Confirm location → Create field → Enter crop history → Save soil profile → Set budget → Retrieve NASA and weather observations → Build decision context → Generate strategies → Compare options → Save plan → Create follow-ups → Complete activity → Verify updated timeline.
+
+## Verify the agronomist journey
+
+Login → Open assigned farmer → Inspect field → View source evidence → Evaluate strategies → Approve/reject → Add expert notes → Verify farmer access.
+
+## Verify organisational journeys
+
+Test the FPO, organization-admin and platform-admin workflows separately.
+
+## Verify actual data dependency
+
+Use controlled integration accounts and real provider requests.
+
+Change:
+
+- Farm location.
+- Field area.
+- Budget.
+- Water availability.
+- Crop history.
+- Planting date.
+
+Verify that the resulting data context and relevant recommendation outcomes are recalculated.
+
+The system must demonstrate that recommendations genuinely depend on these inputs.
+
+A test fixture is acceptable for deterministic unit tests only. It must never be reported as proof of live NASA integration.
+
+## Verify persistence
+
+Refresh the browser.
+
+Log out and back in.
+
+Reopen the farm.
+
+Verify that records, plans, approvals and tasks still exist.
+
+## Verify authorization
+
+Test that users cannot access another user's farm or another organisation's restricted information.
+
+Fix every critical error before marking the build successful.
+
+---
+
+# 22. DEPLOYMENT-READY DELIVERY
+
+Make the project deployable with a clear configuration.
+
+Deliver:
+
+- Production frontend build.
+- FastAPI service.
+- Persistent background worker.
+- Database migration system.
+- Secure environment configuration.
+- Health-check endpoints.
+- Provider monitoring.
+- Logging.
+- Error recovery.
+- Scheduled ingestion.
+- Deployment configuration.
+- README.
+- API documentation.
+- Setup guide.
+
+Do not claim that the application is deployment-ready simply because the frontend preview opens.
+
+Verify the backend, database, authentication, background worker, provider access and core user journeys.
+
+---
+
+# 23. DEFINITION OF DONE
+
+The application is ready for final demonstration only when:
+
+- [ ] The attached landing-page layout is accurately implemented.
+- [ ] All hero metrics display actual retrieved data or an honest location/data-unavailable state.
+- [ ] The application has a connected persistent database.
+- [ ] All five workspaces function.
+- [ ] Authentication and permissions work.
+- [ ] Farm and field location data is correctly stored.
+- [ ] NASA GPM integration has been tested with actual retrieved data.
+- [ ] NASA SMAP integration has been tested with actual retrieved data.
+- [ ] NASA POWER integration has been tested with actual retrieved data.
+- [ ] Landsat processing works with real source products where available.
+- [ ] IMD weather/forecast integration is operational where configured.
+- [ ] Actual soil records can be stored and retrieved.
+- [ ] Market records come from the genuine provider.
+- [ ] Farmer preferences and budget are persisted.
+- [ ] The unified decision context works.
+- [ ] Crop-rotation strategies use that context.
+- [ ] Hard agricultural constraints work.
+- [ ] Budget constraints materially affect recommendations.
+- [ ] AI explanations cite the exact evidence used.
+- [ ] Persistent field memory works.
+- [ ] Tasks and follow-ups work.
+- [ ] Relevant weather events can trigger reassessment.
+- [ ] Farmer feedback updates field history.
+- [ ] Data changes create auditable recommendation versions.
+- [ ] No fake data is shown.
+- [ ] All major and minor application actions work.
+- [ ] Automated tests pass.
+- [ ] Deployment has been verified.
+
+---
+
+# 24. FINAL IMPLEMENTATION REPORT
+
+Produce a report that distinguishes:
+
+**A. Implemented and verified with actual external data.**
+
+**B. Implemented and verified with database records and controlled test fixtures only.**
+
+**C. Implemented but awaiting provider credentials or permissions.**
+
+**D. Not yet implemented.**
+
+For each NASA source, specify:
+
+- Official dataset/product.
+- Actual API or catalogue used.
+- Authentication status.
+- Last successful request.
+- Actual observation timestamp.
+- Retrieved parameters.
+- Units.
+- Resolution.
+- Freshness.
+- Persisted records.
+- Processing status.
+
+For the recommendation engine, report:
+
+- Actual inputs consumed.
+- Hard constraints.
+- Financial constraints.
+- Algorithms.
+- Three strategy results.
+- Evidence references.
+- Validation limitations.
+
+For AI, report which records are actually retrieved and how they are used.
+
+For the follow-up engine, report:
+
+- Events consumed.
+- Rules triggered.
+- Tasks created.
+- Rescheduling decisions.
+- Farmer feedback.
+- Notification status.
+
+Provide the actual deployment URL and verified health status.
+
+**Do not claim complete or error-free delivery if any critical integration or workflow is incomplete.**
+
+---
+
+# FINAL COMMAND
+
+Do not make KhetPatch merely look like the attached image.
+
+Make the actual application behind that image work.
+
+Build a unified system where NASA observations, local weather, geographic conditions, farmer details, soil information, crop history, market data, budget, crop preferences and operational constraints influence the same agricultural decision engine.
+
+Make the AI intelligent through verified context, not invented information.
+
+Make the follow-up engine useful through actual crop schedules, weather events and farmer feedback.
+
+Make all data persistent, traceable, auditable and correctly synchronised.
+
+Preserve the five role-specific workspaces and the exact KhetPatch visual identity.
+
+**Start with a repository audit, then implement, integrate, run, test, repair and verify. Do not stop at a plan, a prototype or a beautiful frontend.**

@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --navy-950: #03152B;
+  --navy-900: #071E38;
+  --navy-800: #0B2A48;
+  --forest-900: #063D2A;
+  --forest-800: #075A36;
+  --green-600: #45B83A;
+  --lime-400: #A7F33C;
+  --lime-300: #C4FF63;
+  --cyan-400: #27D7ED;
+  --cyan-300: #6BEAFF;
+  --surface: #F8FBF6;
+  --text-primary: #10251D;
+  --text-secondary: #52635C;
+  --border-soft: #DCE8DC;
+}
+
+@layer base {
+  body {
+    font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+    background-color: var(--surface);
+    color: var(--text-primary);
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  .font-mono-tabular {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Leaflet map container overrides to ensure crisp rendering inside cards */
+.leaflet-container {
+  font-family: "DM Sans", system-ui, sans-serif;
+  z-index: 1;
+}
